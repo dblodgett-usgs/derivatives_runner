@@ -2,11 +2,9 @@ library(ncdf4)
 library(dapClimates)
 library(climates)
 library(snow)
-data_path<-'/Volumes/Striped/bcca/cmip3_rewrite/'
+data_path<-'/Volumes/Striped/bcca/cmip5_rewrite/'
 setwd(data_path)
 nc_files<-list.files(pattern='*.nc')
-# nc_file<-nc_files[1]
-# nc_file<-'cccma_cgcm3_1-gregorian-sresa1b-run1.nc'
 start <- "2006"
 end <- "2099"
 # bbox_in<-c(-67.06,52.81,-124.6,25.18)
@@ -22,17 +20,18 @@ thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
                 growing_season_lngth_thresh=c(0))
 NetCDF_output<-TRUE
 jobs<-list()
-wd<-'~/temp/'
+wd<-'/Volumes/Scratch/thredds/bcca/cmip5_der'
 par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output, wd,data_path){
   library(dapClimates)
   library(climates)
   library(ncdf4)
   dir.create(paste(wd,gsub('.nc','',nc_file),sep=''),showWarnings=FALSE)
   setwd(paste(wd,gsub('.nc','',nc_file),sep=''))
-  tmax_var<-paste(gsub('.nc','',nc_file),'-tasmax-BCCA_0-125deg',sep='')
-  tmin_var<-paste(gsub('.nc','',nc_file),'-tasmin-BCCA_0-125deg',sep='')
-  prcp_var<-paste(gsub('.nc','',nc_file),'-pr-BCCA_0-125deg',sep='')
+  tmax_var<-paste('BCCA_0-125deg_tasmax_day_',gsub('.nc','',nc_file),sep='')
+  tmin_var<-paste('BCCA_0-125deg_tasmin_day_',gsub('.nc','',nc_file),sep='')
+  prcp_var<-paste('BCCA_0-125deg_pr_day_',gsub('.nc','',nc_file),sep='')
   tave_var<-NULL
+  nc_file<-paste(data_path,nc_file,sep='')
   fileNames<-dap_daily_stats(start,end,bbox_in,thresholds,nc_file,tmax_var,tmin_var,tave_var,prcp_var, NetCDF_output)
   return(fileNames)
 }
