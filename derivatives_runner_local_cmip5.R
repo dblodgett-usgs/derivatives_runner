@@ -7,8 +7,8 @@ setwd(data_path)
 nc_files<-list.files(pattern='*.nc')
 start <- "2006"
 end <- "2099"
-# bbox_in<-c(-67.06,52.81,-124.6,25.18)
-bbox_in<-c(-88,42,-89,43)
+bbox_in<-c(-67.06,52.81,-124.6,25.18)
+# bbox_in<-c(-88,42,-89,43)
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
                 days_tmin_blw_thresh=c(-17.7778,-12.2222,0),
                 days_prcp_abv_thresh=c(25.4,50.8,76.2,101.6),
@@ -20,13 +20,14 @@ thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
                 growing_season_lngth_thresh=c(0))
 NetCDF_output<-TRUE
 jobs<-list()
-wd<-'/Volumes/Scratch/thredds/bcca/cmip5_der'
+wd<-'/Users/usgs/temp/cmip5_der'
 par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output, wd,data_path){
   library(dapClimates)
   library(climates)
   library(ncdf4)
-  dir.create(paste(wd,gsub('.nc','',nc_file),sep=''),showWarnings=FALSE)
-  setwd(paste(wd,gsub('.nc','',nc_file),sep=''))
+  Sys.sleep(5)
+  dir.create(paste(wd,gsub('.nc','',nc_file),sep='/'),showWarnings=FALSE)
+  setwd(paste(wd,gsub('.nc','',nc_file),sep='/'))
   tmax_var<-paste('BCCA_0-125deg_tasmax_day_',gsub('.nc','',nc_file),sep='')
   tmin_var<-paste('BCCA_0-125deg_tasmin_day_',gsub('.nc','',nc_file),sep='')
   prcp_var<-paste('BCCA_0-125deg_pr_day_',gsub('.nc','',nc_file),sep='')
@@ -35,6 +36,6 @@ par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output, wd
   fileNames<-dap_daily_stats(start,end,bbox_in,thresholds,nc_file,tmax_var,tmin_var,tave_var,prcp_var, NetCDF_output)
   return(fileNames)
 }
-cl <- makeCluster(c("localhost","localhost","localhost","localhost","localhost","localhost"), type = "SOCK")
+cl <- makeCluster(rep('localhost',25), type = "SOCK")
 parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,thresholds=thresholds, NetCDF_output=NetCDF_output,wd=wd,data_path=data_path)
 stopCluster(cl)
