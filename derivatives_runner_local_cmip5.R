@@ -2,11 +2,11 @@ library(ncdf4)
 library(dapClimates)
 library(climates)
 library(snow)
-data_path<-'/Volumes/Striped/bcca/cmip5_rewrite/'
+data_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/data/historical/'
 setwd(data_path)
 nc_files<-list.files(pattern='*.nc')
-start <- "2006"
-end <- "2099"
+start <- "1950"
+end <- "2005"
 bbox_in<-c(-67.06,52.81,-124.6,25.18)
 # bbox_in<-c(-88,42,-89,43)
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
@@ -20,12 +20,14 @@ thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
                 growing_season_lngth_thresh=c(0))
 NetCDF_output<-TRUE
 jobs<-list()
-wd<-'/Users/usgs/temp/cmip5_der'
+wd<-'/Volumes/Striped/cmip5_hist_der'
+nc_file<-nc_files[1]
+
 par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output, wd,data_path){
   library(dapClimates)
   library(climates)
   library(ncdf4)
-  Sys.sleep(5)
+  Sys.sleep(sample(1:120,1))
   dir.create(paste(wd,gsub('.nc','',nc_file),sep='/'),showWarnings=FALSE)
   setwd(paste(wd,gsub('.nc','',nc_file),sep='/'))
   tmax_var<-paste('BCCA_0-125deg_tasmax_day_',gsub('.nc','',nc_file),sep='')

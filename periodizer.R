@@ -3,10 +3,10 @@ library(dapClimates)
 library(chron)
 
 # Previously run derivatives.
-data_path<-'/Users/dblodgett/temp/cmip5_der/'
+data_path<-'/Users/usgs/temp/cmip5_der/'
 
 # Where to write the results.
-out_path<-'/Users/dblodgett/temp/cmip5_der_periods/'
+out_path<-'/Users/usgs/temp/cmip5_der_periods/'
 
 # Thresholds used with previously run derivatives.
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
