@@ -21,6 +21,8 @@ Service Configuration
 
 Organization
 ------------
+Will be ensembling r1i1p1. Not all ensembles will include all GCMs/Scenarios.
+
 | r1i1p1 | RCP26 | RCP45 | RCP60 | RCP85 | sum |
 | ----- | ----- | ----- | ----- | ----- | ----- |
 | ACCESS1-0 |  | 1 |  | 1 | 2 |

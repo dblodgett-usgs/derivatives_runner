@@ -69,6 +69,7 @@ for(gcm_scenario_ind in 2:length(gcm_scenarios)){
   for(file in out_filenames) {
     ncid_out<-nc_open(file,write=TRUE)
     ncid_in<-nc_open(paste(data_path,gcm_scenario,'/',file,sep=''))
+    # Extract the file name. This is actually the variable name.
     var_id<-unlist(strsplit(tail(unlist(strsplit(file,'/')),n=1),'[.]'))[1]
     var_data <- ncvar_get(ncid_in, varid=var_id)
     if(length(dim(var_data))==4) out_data<-array(1, dim=c(nrow(var_data),ncol(var_data),dim(var_data)[3],length(periods)-1))
