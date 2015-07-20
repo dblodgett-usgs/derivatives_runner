@@ -4,9 +4,10 @@ library(chron)
 
 # Previously run derivatives.
 data_path<-'/Users/usgs/temp/cmip5_der/'
+data_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_hist_der/'
 
 # Where to write the results.
-out_path<-'/Users/usgs/temp/cmip5_der_periods/'
+out_path<-'/Users/usgs/temp/cmip5_hist_der_periods/'
 
 # Thresholds used with previously run derivatives.
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
@@ -39,7 +40,7 @@ for (stat in names(thresholds))
 # Set working directory and get scenario names from it. Just being lazy here.
 setwd(data_path); gcm_scenarios<-list.dirs()
 
-# Will implement a loop over gcm_scenarios here. Should be 2:length(gcm_scenarios)
+# Loop over all GCM/Scenarios
 for(gcm_scenario_ind in 2:length(gcm_scenarios)){
   gcm_scenario<-tail(unlist(strsplit(gcm_scenarios[gcm_scenario_ind],'/')),n=1)
   

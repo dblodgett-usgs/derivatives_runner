@@ -20,7 +20,7 @@ thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
                 growing_season_lngth_thresh=c(0))
 NetCDF_output<-TRUE
 jobs<-list()
-wd<-'/Volumes/Striped/cmip5_hist_der'
+wd<-'/Volumes/Striped/cmip5_hist_der/'
 nc_file<-nc_files[1]
 
 par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output, wd,data_path){

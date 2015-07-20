@@ -1,3 +1,5 @@
+# Takes periodized derivatives and a single historical period and generates difference grids.
+
 # Previously run derivatives.
 data_path<-'/Users/dblodgett/temp/cmip5_der_periods/'
 
