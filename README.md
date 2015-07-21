@@ -23,26 +23,26 @@ Organization
 ------------
 Will be ensembling r1i1p1. Not all ensembles will include all GCMs/Scenarios.
 
-| r1i1p1 | RCP26 | RCP45 | RCP60 | RCP85 | sum |
-| ----- | ----- | ----- | ----- | ----- | ----- |
-| ACCESS1-0 |  | 1 |  | 1 | 2 |
-| bcc-csm1-1 | 1 | 1 | 1 | 1 | 4 |
-| BNU-ESM |  | 1 |  | 1 | 2 |
-| CanESM2 | 1 | 1 |  | 1 | 3 |
-| CCSM4 | 1 | 1 | 1 | 1 | 4 |
-| CESM1-BGC |  | 1 |  | 1 | 2 |
-| CSIRO-Mk3-6-0 | 1 | 1 |  | 1 | 3 |
-| GFDL-CM3 | 1 |  | 1 | 1 | 3 |
-| GFDL-ESM2G | 1 | 1 | 1 | 1 | 4 |
-| GFDL-ESM2M | 1 | 1 | 1 | 1 | 4 |
-| inmcm4 |  | 1 |  | 1 | 2 |
-| IPSL-CM5A-LR | 1 | 1 | 1 | 1 | 4 |
-| IPSL-CM5A-MR | 1 | 1 | 1 | 1 | 4 |
-| MIROC-ESM | 1 | 1 | 1 | 1 | 4 |
-| MIROC-ESM-CHEM | 1 | 1 | 1 | 1 | 4 |
-| MIROC5 | 1 | 1 | 1 | 1 | 4 |
-| MPI-ESM-LR | 1 | 1 |  | 1 | 3 |
-| MPI-ESM-MR | 1 | 1 |  | 1 | 3 |
-| MRI-CGCM3 | 1 | 1 | 1 | 1 | 4 |
-| NorESM1-M | 1 | 1 | 1 | 1 | 4 |
-| sum | 16 | 19 | 12 | 20 |
+| r1i1p1 | RCP26 | RCP45 | RCP60 | RCP85 | sum | hist |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| ACCESS1-0 |  | 1 |  | 1 | 2 | 1 |
+| bcc-csm1-1 | 1 | 1 | 1 | 1 | 4 |  |
+| BNU-ESM |  | 1 |  | 1 | 2 | 1 |
+| CanESM2 | 1 | 1 |  | 1 | 3 |  |
+| CCSM4 | 1 | 1 | 1 | 1 | 4 | 1 |
+| CESM1-BGC |  | 1 |  | 1 | 2 |  |
+| CSIRO-Mk3-6-0 | 1 | 1 |  | 1 | 3 | 1 |
+| GFDL-CM3 | 1 |  | 1 | 1 | 3 |  |
+| GFDL-ESM2G | 1 | 1 | 1 | 1 | 4 | 1 |
+| GFDL-ESM2M | 1 | 1 | 1 | 1 | 4 |  |
+| inmcm4 |  | 1 |  | 1 | 2 | 1 |
+| IPSL-CM5A-LR | 1 | 1 | 1 | 1 | 4 | 1 |
+| IPSL-CM5A-MR | 1 | 1 | 1 | 1 | 4 | 1 |
+| MIROC-ESM | 1 | 1 | 1 | 1 | 4 | 1 |
+| MIROC-ESM-CHEM | 1 | 1 | 1 | 1 | 4 |  |
+| MIROC5 | 1 | 1 | 1 | 1 | 4 | 1 |
+| MPI-ESM-LR | 1 | 1 |  | 1 | 3 | 1 |
+| MPI-ESM-MR | 1 | 1 |  | 1 | 3 | 1 |
+| MRI-CGCM3 | 1 | 1 | 1 | 1 | 4 | 1 |
+| NorESM1-M | 1 | 1 | 1 | 1 | 4 |  |
+| sum | 16 | 19 | 12 | 20 | 13 |

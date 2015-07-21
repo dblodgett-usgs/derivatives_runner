@@ -5,7 +5,7 @@ library(dapClimates)
 # data_path<-'/Users/dblodgett/temp/cmip5_der/'
 data_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_der/'
 
-gcms=("ACCESS1-0","bcc-csm1-1","BNU-ESM","CanESM2","CCSM4","CESM1-BGC","CSIRO-Mk3-6-0","GFDL-CM3",
+gcms=c("ACCESS1-0","bcc-csm1-1","BNU-ESM","CanESM2","CCSM4","CESM1-BGC","CSIRO-Mk3-6-0","GFDL-CM3",
 "GFDL-ESM2G","GFDL-ESM2M","inmcm4","IPSL-CM5A-LR","IPSL-CM5A-MR","MIROC-ESM","MIROC-ESM-CHEM",
 "MIROC5","MPI-ESM-LR","MPI-ESM-MR","MRI-CGCM3","NorESM1-M")
 

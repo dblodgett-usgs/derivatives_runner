@@ -4,10 +4,10 @@ library(chron)
 
 # Previously run derivatives.
 data_path<-'/Users/usgs/temp/cmip5_der/'
-data_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_hist_der/'
+data_path<-'~/temp/derivatives/cmip5_hist_der/'
 
 # Where to write the results.
-out_path<-'/Users/usgs/temp/cmip5_hist_der_periods/'
+out_path<-'~/temp/derivatives/cmip5_hist_der_periods/'
 
 # Thresholds used with previously run derivatives.
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
@@ -27,6 +27,7 @@ t_units<-'C'
 # Periods that will be used. These should include n+1 values where n is the number 
 # of actual time steps desired. The last vaue should be the end of the final time step.
 periods<-c(2011,2040,2070,2099)
+periods<-c(1961,1990)
 
 # Generate filename list based on thresholds, note this logic is kinda redundant. See test below.
 fileNames<-c()
