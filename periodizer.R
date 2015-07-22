@@ -1,13 +1,12 @@
 library(ncdf4)
-library(dapClimates)
+library(climates)
 library(chron)
 
 # Previously run derivatives.
-data_path<-'/Users/usgs/temp/cmip5_der/'
-data_path<-'~/temp/derivatives/cmip5_hist_der/'
+data_path<-'~/temp/derivatives/'
 
 # Where to write the results.
-out_path<-'~/temp/derivatives/cmip5_hist_der_periods/'
+out_path<-'~/temp/'
 
 # Thresholds used with previously run derivatives.
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),

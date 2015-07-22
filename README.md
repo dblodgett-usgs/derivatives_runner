@@ -10,13 +10,13 @@ Processing
 1. derivatives_runner_local_cmip5.R used to execute initial annual derivatives. Run once for future, once for historical.
 2. ensembler.R used to create ensemble data and maps.
 3. periodizer.R used to generate climatological summaries. Run once for future, once for historical
-4. TODO: differencer.R used to create difference maps content.
+4. differencer.R used to create difference maps content.
 5. TODO: Run Geo Data Portal summarizations for annualized derivatives.
 
 Service Configuration
 ---------------------
 1. TODO: .ncml aggregations for all.
-2. TODO: Deploy on THREDDS
+2. Deploy on THREDDS
 3. TODO: Configure ncWMS
 
 Organization
