@@ -24,12 +24,11 @@ for shapefile in shapefiles.keys():
     print timeRange
     print shapefiles[shapefile]
     shapefile.replace('derivative:','')
-    # outFile=pyGDP.submitFeatureWeightedGridStatistics(geoType=shapefile,
-    #                                                       dataSetURI=dataURI,
-    #                                                       varID=dataTypes,
-    #                                                       startTime=timeRange[1],
-    #                                                       endTime=timeRange[1],
-    #                                                       attribute=shapefiles[shapefile],
-    #                                                       coverage=False,
-    #                                                       outputfname=shapefile.replace('derivative:',''))
-    #     break
+    outFile=pyGDP.submitFeatureWeightedGridStatistics(geoType=shapefile,
+                                                          dataSetURI=dataURI,
+                                                          varID=dataTypes,
+                                                          startTime=timeRange[1],
+                                                          endTime=timeRange[1],
+                                                          attribute=shapefiles[shapefile],
+                                                          coverage=False,
+                                                          outputfname=shapefile.replace('derivative:',''))
