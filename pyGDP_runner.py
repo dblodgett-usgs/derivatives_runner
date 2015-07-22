@@ -27,7 +27,7 @@ for shapefile in shapefiles.keys():
     outFile=pyGDP.submitFeatureWeightedGridStatistics(geoType=shapefile,
                                                           dataSetURI=dataURI,
                                                           varID=dataTypes,
-                                                          startTime=timeRange[1],
+                                                          startTime=timeRange[0],
                                                           endTime=timeRange[1],
                                                           attribute=shapefiles[shapefile],
                                                           coverage=False,
