@@ -1,9 +1,10 @@
 library(ncdf4)
-library(dapClimates)
-
+library(climates)
 # Previously run derivatives.
-# data_path<-'/Users/dblodgett/temp/cmip5_der/'
-data_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_der/'
+# Future Stuff
+# data_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_der/'
+# Historical Stuff
+data_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_hist_der/'
 
 gcms=c("ACCESS1-0","bcc-csm1-1","BNU-ESM","CanESM2","CCSM4","CESM1-BGC","CSIRO-Mk3-6-0","GFDL-CM3",
 "GFDL-ESM2G","GFDL-ESM2M","inmcm4","IPSL-CM5A-LR","IPSL-CM5A-MR","MIROC-ESM","MIROC-ESM-CHEM",
@@ -11,7 +12,10 @@ gcms=c("ACCESS1-0","bcc-csm1-1","BNU-ESM","CanESM2","CCSM4","CESM1-BGC","CSIRO-M
 
 run="r1i1p1"
 
-scenarios=c("rcp26","rcp45","rcp60","rcp85")
+#Future Scenarios
+# scenarios=c("rcp26","rcp45","rcp60","rcp85")
+# Historical
+scenarios=c("historical")
 
 # Thresholds used with previously run derivatives.
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
@@ -56,7 +60,10 @@ for(scenario in scenarios)
   
   # Initialize the output NetCDF files.
   x_vals<-ncid$dim$lon$vals; y_vals<-ncid$dim$lat$vals
-  li<-initialize_NetCDF(ncid, thresholds, start="2006", end="2099", tmax_var=FALSE, prcp_var=FALSE, x_vals, y_vals, periods=FALSE, t_units, p_units)
+  # Future
+  # li<-initialize_NetCDF(ncid, thresholds, start="2006", end="2099", tmax_var=FALSE, prcp_var=FALSE, x_vals, y_vals, periods=FALSE, t_units, p_units)
+  # Historical
+  li<-initialize_NetCDF(ncid, thresholds, start="1950", end="2004", tmax_var=FALSE, prcp_var=FALSE, x_vals, y_vals, periods=list(), t_units, p_units)
   out_filenames<-li$fileNames
   
   # Make sure the in and out filenames are the same!
