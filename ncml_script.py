@@ -1,5 +1,5 @@
-mport os
-wd='/mnt/thredds/bcca/cmip5/data/derivatives/ncml/'
+import os
+wd='/Volumes/Scratch/thredds/bcca/cmip5/data/derivatives/ncml/'
 folders=['cmip5_der','cmip5_der_periods','cmip5_hist_der','cmip5_hist_der_periods']
 derivatives=["cooling_degree_day.nc","days_tmax_abv.nc","growing_degree_day.nc",
             "heating_degree_day.nc","longest_run_tmax_abv.nc","days_prcp_abv.nc",

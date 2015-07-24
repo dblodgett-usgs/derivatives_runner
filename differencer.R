@@ -3,10 +3,10 @@ library(ncdf4)
 # Takes periodized derivatives and a single historical period and generates difference grids.
 
 # Previously run derivatives.
-future_path<-'~/temp/derivatives/cmip5_der_periods/'
-historical_path<-'~/temp/derivatives/cmip5_hist_der_periods/'
+future_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_der_periods/'
+historical_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_hist_der_periods/'
 
-out_path<-'~/temp/derivatives/cmip5_der_diff/'
+out_path<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5/derivatives/cmip5_der_diff/'
 
 # Thresholds used with previously run derivatives.
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
@@ -84,9 +84,6 @@ for(gcm_scenario_ind in 2:length(gcm_scenarios)){
       out_data<-array(1, dim=c(nrow(var_data_future),ncol(var_data_future),length(periods)-1))
     }
     for(per_ind in 1:(length(periods)-1)){
-#       li<-request_time_bounds(ncid_future,periods[per_ind],periods[per_ind+1])
-#       start_ind<-li$t_ind1
-#       end_ind<-li$t_ind2
       subtract<-function(future,historical) {
         return(future-historical)
       }
@@ -96,5 +93,11 @@ for(gcm_scenario_ind in 2:length(gcm_scenarios)){
         out_data<-apply(var_data_future, c(3), subtract, historical=var_data_hist)
       }
     }
+    out_data[is.nan(out_data)]<--1
+    ncvar_put(ncid_out,var_id,out_data)
+    ncvar_put(ncid_out,'threshold',ncvar_get(ncid_future,'threshold'))
+    nc_close(ncid_future)
+    nc_close(ncid_hist)
+    nc_close(ncid_out)
   }
 }
