@@ -42,6 +42,14 @@ future_scenarios=c("rcp26","rcp45","rcp60","rcp85")
 
 historical_scenarios=c("historical")
 
+#' Main Function to Run Derivatives
+#' 
+#' @param storage_root The root of the raw data
+#' @param out_root The root of the location to write the results to
+#' @param bbox_in The bounding box to calculate derivatives on.
+#' @param cpus The number of cpus to use when calculating derivatives
+#' @export
+#' 
 derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   # Set up cluster.
   cl <- makeCluster(rep('localhost',cpus), type = "SOCK")
@@ -86,15 +94,14 @@ derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   periodize(data_path, out_path, periods=historical_periods)
   
   # Perdiodize Future Derivatives
-  data_path<-paste(out_root,path$future_path,sep='')
-  out_path<-paste(out_root,path$future_periods_path,sep='')
+  data_path<-file.path(out_root,path$future_path)
+  out_path<-file.path(out_root,path$future_periods_path)
   periodize(data_path, out_path, periods=future_periods)
   
   # Run Differences
-  future_path<-paste(out_root,path$future_periods_path,sep='')
-  historical_path<-paste(out_root,path$historical_periods_path,sep='')
-  out_path<-paste(out_root,path$difference_path,sep='')
-  setwd(future_path) # Don't need to do this?
-  gcm_scenarios<-list.dirs(future_path)
+  future_path<-file.path(out_root,path$future_periods_path)
+  historical_path<-file.path(out_root,path$historical_periods_path)
+  out_path<-file.path(out_root,path$difference_path)
+  diferencer(out_path, future_path, historical_path, future_periods)
 }
 

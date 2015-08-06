@@ -4,11 +4,9 @@
 \alias{periodize}
 \title{Create climatology period summary files}
 \usage{
-periodize(gcm_scenarios, data_path, out_path, periods)
+periodize(data_path, out_path, periods)
 }
 \arguments{
-\item{gcm_scenarios}{the vector of gcm_scenario folders to consider}
-
 \item{data_path}{The path where the annual data files can be found}
 
 \item{out_path}{The path where the results should be written to}

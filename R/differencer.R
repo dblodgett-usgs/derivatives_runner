@@ -1,6 +1,5 @@
 #' Difference periodized files between historical and past periods
 #' 
-#' @param gcm_scenarios the vector of gcm_scenario folders to consider
 #' @param nc_file the netcdf file or opendap endpoint to use
 #' @param data_path The path where the data files can be found
 #' @param future_path The path where the future periodized derivatives are
@@ -8,7 +7,8 @@
 #' @param periods The periods that were used in the periodizer
 #' @export
 #' 
-differencer<-function(gcm_scenarios, nc_file, out_path, future_path, historical_path, periods) {
+differencer<-function(out_path, future_path, historical_path, periods) {
+  gcm_scenarios<-list.dirs(future_path)
   # Loop over all GCM/Scenarios
   for(gcm_scenario_ind in 2:length(gcm_scenarios)){
     gcm_scenario<-tail(unlist(strsplit(gcm_scenarios[gcm_scenario_ind],'/')),n=1)
@@ -16,10 +16,11 @@ differencer<-function(gcm_scenarios, nc_file, out_path, future_path, historical_
     #Use the first file for creation of the output ones.
     nc_file<-fileNames[1]
     # Create output directory and set it as the working directory.
-    dir.create(paste(out_path,gcm_scenario,sep=''),showWarnings=FALSE); setwd(paste(out_path,gcm_scenario,sep=''))
+    dir.create(file.path(out_path,gcm_scenario),showWarnings=FALSE) 
+    setwd(file.path(out_path,gcm_scenario))
     
     # Try and open the file.
-    tryCatch(ncid <- nc_open(paste(future_path,gcm_scenario,'/',nc_file,sep='')), error = function(e) 
+    tryCatch(ncid <- nc_open(file.path(future_path,gcm_scenario,nc_file)), error = function(e) 
     {
       cat("An error was encountered trying to open the OPeNDAP resource."); print(e)
     })
@@ -38,8 +39,8 @@ differencer<-function(gcm_scenarios, nc_file, out_path, future_path, historical_
     # Loop over fileNames
     for(file in out_filenames) {
       ncid_out<-nc_open(file,write=TRUE)
-      ncid_future<-nc_open(paste(future_path,gcm_scenario,'/',file,sep=''))
-      ncid_hist<-nc_open(paste(historical_path,gsub('rcp[0-9][0-9]','historical',gcm_scenario),'/',file,sep=''))
+      ncid_future<-nc_open(file.path(future_path,gcm_scenario,file))
+      ncid_hist<-nc_open(file.path(historical_path,gsub('rcp[0-9][0-9]','historical',gcm_scenario),file,))
       
       # Extract the file name. This is actually the variable name.
       var_id<-unlist(strsplit(tail(unlist(strsplit(file,'/')),n=1),'[.]'))[1]

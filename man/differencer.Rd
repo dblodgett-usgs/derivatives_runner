@@ -4,19 +4,16 @@
 \alias{differencer}
 \title{Difference periodized files between historical and past periods}
 \usage{
-differencer(gcm_scenarios, nc_file, out_path, future_path, historical_path,
-  periods)
+differencer(out_path, future_path, historical_path, periods)
 }
 \arguments{
-\item{gcm_scenarios}{the vector of gcm_scenario folders to consider}
-
-\item{nc_file}{the netcdf file or opendap endpoint to use}
-
 \item{future_path}{The path where the future periodized derivatives are}
 
 \item{historical_path}{The path where the historical periodized derivatives are}
 
 \item{periods}{The periods that were used in the periodizer}
+
+\item{nc_file}{the netcdf file or opendap endpoint to use}
 
 \item{data_path}{The path where the data files can be found}
 }

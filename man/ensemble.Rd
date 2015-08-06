@@ -4,16 +4,12 @@
 \alias{ensemble}
 \title{Create ensemble of derivatives.}
 \usage{
-ensemble(nc_file, data_path, scenarios, gcm_scenarios, start, end)
+ensemble(data_path, scenarios, start, end)
 }
 \arguments{
-\item{nc_file}{the netcdf file or opendap endpoint to use}
-
 \item{data_path}{The path where the data files can be found}
 
 \item{scenarios}{the scenarios that will go into the ensemble}
-
-\item{gcm_scenarios}{the vecotr of gcm_scenario folders to consider}
 
 \item{start}{A string start year}
 
