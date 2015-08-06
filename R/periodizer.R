@@ -1,0 +1,56 @@
+periodize<-function(gcm_scenarios, data_path, out_path, periods) {
+  # Loop over all GCM/Scenarios
+  for(gcm_scenario_ind in 2:length(gcm_scenarios)){
+    
+    ### Could turn this into a function###
+    gcm_scenario<-tail(unlist(strsplit(gcm_scenarios[gcm_scenario_ind],'/')),n=1)
+    
+    #Use the first file for creation of the output ones.
+    nc_file<-fileNames[1]
+    # Create output directory and set it as the working directory.
+    dir.create(paste(out_path,gcm_scenario,sep=''),showWarnings=FALSE); setwd(paste(out_path,gcm_scenario,sep=''))
+    
+    # Try and open the file.
+    tryCatch(ncid <- nc_open(paste(data_path,gcm_scenario,'/',nc_file,sep='')), error = function(e) 
+    {
+      cat("An error was encountered trying to open the OPeNDAP resource."); print(e)
+    })
+    
+    # Initialize the output NetCDF files.
+    x_vals<-ncid$dim$lon$vals; y_vals<-ncid$dim$lat$vals
+    li<-initialize_NetCDF(ncid, thresholds, start=FALSE, end=FALSE, tmax_var=FALSE, prcp_var=FALSE, x_vals, y_vals, periods, t_units, p_units)
+    out_filenames<-li$fileNames
+    
+    # Make sure the in and out filenames are the same!
+    stopifnot(any(out_filenames==fileNames))
+    
+    # Clean up
+    nc_close(ncid)
+    ### ###
+    
+    # Loop over fileNames
+    for(file in out_filenames) {
+      ncid_out<-nc_open(file,write=TRUE)
+      ncid_in<-nc_open(paste(data_path,gcm_scenario,'/',file,sep=''))
+      # Extract the file name. This is actually the variable name.
+      var_id<-unlist(strsplit(tail(unlist(strsplit(file,'/')),n=1),'[.]'))[1]
+      var_data <- ncvar_get(ncid_in, varid=var_id)
+      if(length(dim(var_data))==4) out_data<-array(1, dim=c(nrow(var_data),ncol(var_data),dim(var_data)[3],length(periods)-1))
+      else out_data<-array(1, dim=c(nrow(var_data),ncol(var_data),length(periods)-1))
+      for(per_ind in 1:(length(periods)-1)) {
+        li<-request_time_bounds(ncid_in,periods[per_ind],periods[per_ind+1])
+        start_ind<-li$t_ind1; end_ind<-li$t_ind2; time_inds<-li$time
+        if(length(dim(var_data))==4) {
+          out_data[,,,per_ind]<-round(apply(var_data[,,,start_ind:end_ind],c(1,2,3),mean, na.rm = TRUE),digits=2)
+        } else {
+          out_data[,,per_ind]<-round(apply(var_data[,,start_ind:end_ind], c(1,2), mean, na.rm = TRUE),digits=2)
+        }
+      }
+      out_data[is.nan(out_data)]<--1
+      ncvar_put(ncid_out,var_id,out_data)
+      ncvar_put(ncid_out,'threshold',ncvar_get(ncid_in,'threshold'))
+      nc_close(ncid_in)
+      nc_close(ncid_out)
+    }
+  }
+}

@@ -3,7 +3,7 @@ path<-list(
   future_data_path='/data/future/', # Where the raw future data originates
   out_path='/Volumes/Striped/', 
   future_path='/derivatives/cmip5_der/', # Where the future derivatives get moved to.
-  hist_path='/derivatives/cmip5_hist_der/', # Where the historical derivatives get moved to.
+  historical_path='/derivatives/cmip5_hist_der/', # Where the historical derivatives get moved to.
   historical_periods_path='/derivatives/cmip5_hist_der_periods/', # Where the historical periods go 
   future_periods_path='/derivatives/cmip5_der_periods/', # Where the future periods go.
   difference_path='/derivatives/cmip5_der_diff/') # Where the difference output gos.
@@ -17,3 +17,18 @@ thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
                 heating_degree_day_thresh=c(18.3333),
                 cooling_degree_day_thresh=c(18.3333),
                 growing_season_lngth_thresh=c(0))
+
+p_units<-'mm/d'
+t_units<-'C'
+
+future_periods<-c(2011,2040,2070,2099)
+
+hustorical_periods<-c(1961,1990)
+
+fileNames<-c() # fileNames is a list of the names we generate based on the thresholds list.
+for (stat in names(thresholds))
+{
+  varName<-gsub("_thresh","",stat)
+  fileName<-paste(varName,'.nc',sep='')
+  fileNames<-append(fileNames,fileName)
+}
