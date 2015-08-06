@@ -42,13 +42,13 @@ future_scenarios=c("rcp26","rcp45","rcp60","rcp85")
 
 historical_scenarios=c("historical")
 
-derivatives_runner_fun<-function(storage_root, out_path, bbox_in, cpus) {
+derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   # Set up cluster.
   cl <- makeCluster(rep('localhost',cpus), type = "SOCK")
   
   # Run historical derivatives.
   data_path<-paste(storage_root,path$historical_data_path,sep='')
-  wd<-file.path(out_path,path$historical_path)
+  wd<-file.path(out_root,path$historical_path)
   dir.create(wd, recursive = TRUE)
   nc_files<-list.files(pattern=paste(data_path,'*.nc',sep=''))
   start <- "1950"
@@ -58,7 +58,7 @@ derivatives_runner_fun<-function(storage_root, out_path, bbox_in, cpus) {
   
   # Run future derivatives.
   data_path<-file.path(storage_root,path$future_data_path)
-  wd<-file.path(out_path,path$future_path)
+  wd<-file.path(out_root,path$future_path)
   dir.create(wd, recursive = TRUE)
   nc_files<-list.files(pattern=paste(data_path,'*.nc',sep=''))
   start <- "2006"
@@ -69,35 +69,31 @@ derivatives_runner_fun<-function(storage_root, out_path, bbox_in, cpus) {
   stopCluster(cl)
   
   # Ensemble Historical Derivatives
-  data_path<-file.path(out_path,path$historical_path)
+  data_path<-file.path(out_root,path$historical_path)
   start <- "1950"
   end <- "2004"
   ensemble(data_path, historical_scenarios, start, end)
   
   # Ensemble Future Derivatives
-  data_path<-file.path(out_path,path$future_path)
+  data_path<-file.path(out_root,path$future_path)
   start <- "2006"
   end <- "2099"
   ensemble(data_path, future_scenarios, start, end)
   
   # Periodize Historical Derivatives
-  data_path<-paste(out_path,path$historical_path,sep='')
-  setwd(data_path) # Might not need to do this?
-  gcm_scenarios<-list.dirs(data_path) # Listing the folders that we generated derivatives into.
-  out_path<-paste(out_path,path$historical_periods_path,sep='')
-  periodize(gcm_scenarios, data_path, out_path, periods=historical_periods)
+  data_path<-file.path(out_root,path$historical_path)
+  out_path<-file.path(out_root,path$historical_periods_path)
+  periodize(data_path, out_path, periods=historical_periods)
   
   # Perdiodize Future Derivatives
-  data_path<-paste(out_path,path$future_path,sep='')
-  setwd(data_path) # Might not need to do this?
-  gcm_scenarios<-list.dirs(data_path) # Listing the folders that we generated derivatives into.
-  out_path<-paste(out_path,path$future_periods_path,sep='')
-  periodize(gcm_scenarios, data_path, out_path, periods=historical_periods)
+  data_path<-paste(out_root,path$future_path,sep='')
+  out_path<-paste(out_root,path$future_periods_path,sep='')
+  periodize(data_path, out_path, periods=future_periods)
   
   # Run Differences
-  future_path<-paste(out_path,path$future_periods_path,sep='')
-  historical_path<-paste(out_path,path$historical_periods_path,sep='')
-  out_path<-paste(out_path,path$difference_path,sep='')
+  future_path<-paste(out_root,path$future_periods_path,sep='')
+  historical_path<-paste(out_root,path$historical_periods_path,sep='')
+  out_path<-paste(out_root,path$difference_path,sep='')
   setwd(future_path) # Don't need to do this?
   gcm_scenarios<-list.dirs(future_path)
 }

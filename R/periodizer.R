@@ -1,12 +1,13 @@
 #' Create climatology period summary files
 #' 
-#' @param gcm_scenarios the vector of gcm_scenario folders to consider
 #' @param data_path The path where the annual data files can be found
 #' @param out_path The path where the results should be written to
 #' @param periods The periods to use
 #' @export
 #' 
-periodize<-function(gcm_scenarios, data_path, out_path, periods) {
+periodize<-function(data_path, out_path, periods) {
+  setwd(data_path) # Might not need to do this?
+  gcm_scenarios<-list.dirs(data_path) # Listing the folders that we generated derivatives into.
   # Loop over all GCM/Scenarios
   for(gcm_scenario_ind in 2:length(gcm_scenarios)){
     
