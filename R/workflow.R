@@ -7,9 +7,10 @@ library(chron) # Not sure this is needed.
 storage_root<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5' # Where all the data will end up at rest.
 out_path<-'/Volumes/Striped/' # Where data will get written to durring processing.
 bbox_in<-c(-67.06,52.81,-124.6,25.18) # bbox of the data.
+cpus<-25
 
 # Set up cluster.
-cl <- makeCluster(rep('localhost',25), type = "SOCK")
+cl <- makeCluster(rep('localhost',cpus), type = "SOCK")
 
 # Run historical derivatives.
 data_path<-paste(storage_root,path$historical_data_path,sep='')
