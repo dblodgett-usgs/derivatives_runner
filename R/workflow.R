@@ -31,15 +31,30 @@ parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
 
 stopCluster(cl)
 
+# Ensemble Historical Derivatives
+data_path<-paste(out_path,path$historical_path,sep='')
+setwd(data_path) # Might not need to do this?
+gcm_scenarios<-list.dirs(data_path)
+nc_file<-fileNames[1]
+ensemble(nc_file, data_path, scenarios, gcm_scenarios, start, end)
+
+# Ensemble Future Derivatives
+data_path<-paste(out_path,path$future_path,sep='')
+setwd(data_path) # Might not need to do this?
+gcm_scenarios<-list.dirs(data_path)
+nc_file<-fileNames[1]
+ensemble(nc_file, data_path, scenarios, gcm_scenarios, start, end)
+
 # Periodize Historical Derivatives
 data_path<-paste(out_path,path$historical_path,sep='')
+setwd(data_path) # Might not need to do this?
 gcm_scenarios<-list.dirs(data_path) # Listing the folders that we generated derivatives into.
 out_path<-paste(out_path,path$historical_periods_path,sep='')
 periodize(gcm_scenarios, data_path, out_path, periods=historical_periods)
 
 # Perdiodize Future Derivatives
 data_path<-paste(out_path,path$future_path,sep='')
+setwd(data_path) # Might not need to do this?
 gcm_scenarios<-list.dirs(data_path) # Listing the folders that we generated derivatives into.
 out_path<-paste(out_path,path$future_periods_path,sep='')
 periodize(gcm_scenarios, data_path, out_path, periods=historical_periods)
-
