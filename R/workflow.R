@@ -58,3 +58,11 @@ setwd(data_path) # Might not need to do this?
 gcm_scenarios<-list.dirs(data_path) # Listing the folders that we generated derivatives into.
 out_path<-paste(out_path,path$future_periods_path,sep='')
 periodize(gcm_scenarios, data_path, out_path, periods=historical_periods)
+
+# Run Differences
+future_path<-paste(out_path,path$future_periods_path,sep='')
+historical_path<-paste(out_path,path$historical_periods_path,sep='')
+out_path<-paste(out_path,path$difference_path,sep='')
+setwd(future_path) # Don't need to do this?
+gcm_scenarios<-list.dirs(future_path)
+
