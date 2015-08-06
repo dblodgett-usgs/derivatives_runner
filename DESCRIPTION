@@ -1,0 +1,11 @@
+Package: derivativesRunner
+Type: Package
+Title: CMIP5 BCCA Derivatives Runner
+Version: 1.0
+Date: 2015-08-06
+Author: David Blodgett
+Maintainer: David Blodgett <dblodgett@usgs.gov>
+Description: A simple package to run BCCA CMIP5 Derivative data
+Depends: climates, ncdf4, snow
+License: C00
+LazyLoad: yes

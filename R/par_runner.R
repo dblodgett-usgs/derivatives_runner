@@ -1,4 +1,17 @@
-par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output, wd,data_path){
+#' Run dap_daily_stats for use with parSapply.
+#' 
+#' @param start A string start year
+#' @param end A string end year
+#' @param bbox_in a vector of bbox indices per dap_daily_stats
+#' @param thresholds a list of thresholds per dap_daily_stats
+#' @param nc_file the netcdf file or opendap endpoint to use
+#' @param NetCDF_output defaults to TRUE, geotiff if FALSE
+#' @param wd The working directory to put derived results
+#' @param data_path The path where the data files can be found
+#' @return fileNames the list of filenames that were created.
+#' @export
+#' 
+par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output=TRUE, wd,data_path){
   library(climates)
   library(ncdf4)
   Sys.sleep(sample(1:240,1))

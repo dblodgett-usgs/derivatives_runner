@@ -1,4 +1,14 @@
-ensemble<-function(nc_file, data_path, scenarios, gcm_scenarios, start, end)) {
+#' Create ensemble of derivatives.
+#' 
+#' @param nc_file the netcdf file or opendap endpoint to use
+#' @param data_path The path where the data files can be found
+#' @param scenarios the scenarios that will go into the ensemble
+#' @param gcm_scenarios the vecotr of gcm_scenario folders to consider
+#' @param start A string start year
+#' @param end A string end year
+#' @export
+#' 
+ensemble<-function(nc_file, data_path, scenarios, gcm_scenarios, start, end) {
   # Create output directory and set it as the working directory.
   # This loop is done once for each ensemble we are creating.
   for(scenario in scenarios)
