@@ -1,17 +1,18 @@
-#!/Volumes/Scratch/dblodgett_workspace/pyGDP/venv/bin/python
 import pyGDP
 import os
-os.chdir('/Volumes/Scratch/dblodgett_workspace/pyGDP_output/')
+import sys
+if os.path.isdir(sys.argv[1]):
+    os.chdir(sys.argv[1])
+else:
+    sys.exit('You have to pass in a path')
+
 pyGDP = pyGDP.pyGDPwebProcessing()
              
-# shapefiles={'derivative:CONUS_States':'STATE',
-#             'derivative:US_Counties':'FIPS',
-#             'derivative:FWS_LCC':'area_names',
-#             'derivative:Level_III_Ecoregions':'LEVEL3_NAM',
-#             'derivative:NCA_Regions':'NCA_Region',
-#             'derivative:wbdhu8_alb_simp':'HUC_8'}
-            
-shapefiles={'derivative:US_Counties':'FIPS',
+shapefiles={'derivative:CONUS_States':'STATE',
+            'derivative:US_Counties':'FIPS',
+            'derivative:FWS_LCC':'area_names',
+            'derivative:Level_III_Ecoregions':'LEVEL3_NAM',
+            'derivative:NCA_Regions':'NCA_Region',
             'derivative:wbdhu8_alb_simp':'HUC_8'}
           
 dataURIs=['http://localhost:8080/thredds/dodsC/Striped/derivatives/ncml/longest_run_tmax_abv_cmip5_der.ncml',
