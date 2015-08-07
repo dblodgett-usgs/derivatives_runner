@@ -7,3 +7,5 @@ bbox_in<-c(-67.06,52.81,-124.6,25.18) # bbox of the data.
 cpus<-25
 
 derivatives_runner(storage_root, out_root, bbox_in, cpus)
+
+gdp_output_root<-'/Volumes/Scratch/dblodgett_workspace/pyGDP_output/run'

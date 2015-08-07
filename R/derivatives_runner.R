@@ -42,6 +42,13 @@ future_scenarios=c("rcp26","rcp45","rcp60","rcp85")
 
 historical_scenarios=c("historical")
 
+nc_summary<-'This dataset was created through processing the BCCA V2 dataset with the climates R package and the USGS Geo Data Portal'
+nc_date_create<-'2015-08-01'
+nc_creator_name='David Blodgett'
+nc_creator_email='dblodgett@usgs.gov'
+nc_project='U.S. Geological Survey Geo Data Portal Climate Derivatives'
+nc_proc_level='Downscaled climate indices sampled to polygon areas of interest'
+
 #' Main Function to Run Derivatives
 #' 
 #' @param storage_root The root of the raw data
