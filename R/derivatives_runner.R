@@ -1,11 +1,11 @@
 path<-list(
-  historical_data_path='/data/historical/', # Where the raw historical data originates
-  future_data_path='/data/future/', # Where the raw future data originates
-  future_path='/derivatives/cmip5_der/', # Where the future derivatives get moved to.
-  historical_path='/derivatives/cmip5_hist_der/', # Where the historical derivatives get moved to.
-  historical_periods_path='/derivatives/cmip5_hist_der_periods/', # Where the historical periods go 
-  future_periods_path='/derivatives/cmip5_der_periods/', # Where the future periods go.
-  difference_path='/derivatives/cmip5_der_diff/') # Where the difference output gos.
+  historical_data_path='data/historical', # Where the raw historical data originates
+  future_data_path='data/rcp', # Where the raw future data originates
+  future_path='derivatives/cmip5_der', # Where the future derivatives get moved to.
+  historical_path='derivatives/cmip5_hist_der', # Where the historical derivatives get moved to.
+  historical_periods_path='derivatives/cmip5_hist_der_periods', # Where the historical periods go 
+  future_periods_path='derivatives/cmip5_der_periods', # Where the future periods go.
+  difference_path='derivatives/cmip5_der_diff') # Where the difference output gos.
 
 thresholds=list(days_tmax_abv_thresh=c(32.2222,35,37.7778),
                 days_tmin_blw_thresh=c(-17.7778,-12.2222,0),
@@ -22,7 +22,7 @@ t_units<-'C'
 
 future_periods<-c(2011,2040,2070,2099)
 
-hustorical_periods<-c(1961,1990)
+historical_periods<-c(1961,1990)
 
 fileNames<-c() # fileNames is a list of the names we generate based on the thresholds list.
 for (stat in names(thresholds))
@@ -61,25 +61,27 @@ derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   # Set up cluster.
   cl <- makeCluster(rep('localhost',cpus), type = "SOCK")
   
-  # Run historical derivatives.
-  data_path<-paste(storage_root,path$historical_data_path,sep='')
-  wd<-file.path(out_root,path$historical_path)
-  dir.create(wd, recursive = TRUE)
-  nc_files<-list.files(pattern=paste(data_path,'*.nc',sep=''))
-  start <- "1950"
-  end <- "2004"
-  parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
-            thresholds=thresholds, NetCDF_output=TRUE, wd=wd, data_path=data_path)
+#   # Run historical derivatives.
+#   data_path<-file.path(storage_root,path$historical_data_path)
+#   wd<-file.path(out_root,path$historical_path)
+#   print(wd)
+#   dir.create(wd, recursive = TRUE)
+#   nc_files<-list.files(data_path,pattern='*.nc')
+#   start <- "1950"
+#   end <- "2004"
+#   parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
+#             thresholds=thresholds, NetCDF_output=TRUE, wd=wd, data_path=data_path,sleep=(cpus*10))
   
   # Run future derivatives.
   data_path<-file.path(storage_root,path$future_data_path)
   wd<-file.path(out_root,path$future_path)
+  print(wd)
   dir.create(wd, recursive = TRUE)
-  nc_files<-list.files(pattern=paste(data_path,'*.nc',sep=''))
+  nc_files<-list.files(data_path,pattern='*.nc')
   start <- "2006"
   end <- "2099"
   parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
-            thresholds=thresholds, NetCDF_output=TRUE, wd=wd, data_path=data_path)
+            thresholds=thresholds, NetCDF_output=TRUE, wd=wd, data_path=data_path,sleep=(cpus*10))
   
   stopCluster(cl)
   
@@ -109,6 +111,6 @@ derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   future_path<-file.path(out_root,path$future_periods_path)
   historical_path<-file.path(out_root,path$historical_periods_path)
   out_path<-file.path(out_root,path$difference_path)
-  diferencer(out_path, future_path, historical_path, future_periods)
+  differencer(out_path, future_path, historical_path, future_periods)
 }
 

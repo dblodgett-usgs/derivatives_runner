@@ -6,7 +6,6 @@
 #' @export
 #' 
 periodize<-function(data_path, out_path, periods) {
-  setwd(data_path) # Might not need to do this?
   gcm_scenarios<-list.dirs(data_path) # Listing the folders that we generated derivatives into.
   # Loop over all GCM/Scenarios
   for(gcm_scenario_ind in 2:length(gcm_scenarios)){
@@ -17,10 +16,11 @@ periodize<-function(data_path, out_path, periods) {
     #Use the first file for creation of the output ones.
     nc_file<-fileNames[1]
     # Create output directory and set it as the working directory.
-    dir.create(paste(out_path,gcm_scenario,sep=''),showWarnings=FALSE); setwd(paste(out_path,gcm_scenario,sep=''))
+    dir.create(file.path(out_path,gcm_scenario), showWarnings=FALSE, recursive = TRUE) 
+    setwd(file.path(out_path,gcm_scenario))
     
     # Try and open the file.
-    tryCatch(ncid <- nc_open(paste(data_path,gcm_scenario,'/',nc_file,sep='')), error = function(e) 
+    tryCatch(ncid <- nc_open(file.path(data_path,gcm_scenario,nc_file)), error = function(e) 
     {
       cat("An error was encountered trying to open the OPeNDAP resource."); print(e)
     })
@@ -40,7 +40,7 @@ periodize<-function(data_path, out_path, periods) {
     # Loop over fileNames
     for(file in out_filenames) {
       ncid_out<-nc_open(file,write=TRUE)
-      ncid_in<-nc_open(paste(data_path,gcm_scenario,'/',file,sep=''))
+      ncid_in<-nc_open(file.path(data_path,gcm_scenario,file))
       # Extract the file name. This is actually the variable name.
       var_id<-unlist(strsplit(tail(unlist(strsplit(file,'/')),n=1),'[.]'))[1]
       var_data <- ncvar_get(ncid_in, varid=var_id)

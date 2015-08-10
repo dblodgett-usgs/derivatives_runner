@@ -1,13 +1,14 @@
 library(derivativesRunner)
 
 # Set script constants
-storage_root<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5' # Where all the data will end up at rest.
-out_root<-'/Volumes/Striped/' # Where data will get written to durring processing.
+storage_root<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5' # Where all the raw data is.
+out_root<-'/Volumes/Striped/final_derivatives' # Where data will get written to durring processing.
 bbox_in<-c(-67.06,52.81,-124.6,25.18) # bbox of the data.
+bbox_in<-c(-88,42,-89,43) # For testing
 cpus<-25
 
 # Run derivatives
-derivatives_runner(storage_root, out_root, bbox_in, cpus)
+derivatives_runner_fun(storage_root, out_root, bbox_in, cpus)
 
 # User this python
 py_virt_env<-'/Volumes/Scratch/dblodgett_workspace/pyGDP/venv/bin/python'

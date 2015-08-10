@@ -16,7 +16,7 @@ differencer<-function(out_path, future_path, historical_path, periods) {
     #Use the first file for creation of the output ones.
     nc_file<-fileNames[1]
     # Create output directory and set it as the working directory.
-    dir.create(file.path(out_path,gcm_scenario),showWarnings=FALSE) 
+    dir.create(file.path(out_path,gcm_scenario), showWarnings = FALSE, recursive = TRUE) 
     setwd(file.path(out_path,gcm_scenario))
     
     # Try and open the file.
@@ -40,7 +40,7 @@ differencer<-function(out_path, future_path, historical_path, periods) {
     for(file in out_filenames) {
       ncid_out<-nc_open(file,write=TRUE)
       ncid_future<-nc_open(file.path(future_path,gcm_scenario,file))
-      ncid_hist<-nc_open(file.path(historical_path,gsub('rcp[0-9][0-9]','historical',gcm_scenario),file,))
+      ncid_hist<-nc_open(file.path(historical_path,gsub('rcp[0-9][0-9]','historical',gcm_scenario),file))
       
       # Extract the file name. This is actually the variable name.
       var_id<-unlist(strsplit(tail(unlist(strsplit(file,'/')),n=1),'[.]'))[1]

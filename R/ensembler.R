@@ -7,18 +7,18 @@
 #' @export
 #' 
 ensemble<-function(data_path, scenarios, start, end) {
-  setwd(data_path) # Might not need to do this?
   gcm_scenarios<-list.dirs(data_path)
+  gcm_scenarios<-gcm_scenarios[which(!grepl('ensemble',gcm_scenarios))]
   nc_file<-fileNames[1]
   # Create output directory and set it as the working directory.
   # This loop is done once for each ensemble we are creating.
   for(scenario in scenarios)
   {
-    write_to<-file.path(data_path,'ensemble_',scenario)
+    write_to<-file.path(data_path,paste('ensemble_',scenario,sep=''))
     dir.create(write_to,showWarnings=FALSE)
     setwd(write_to)
     # Try and open the file.
-    tryCatch(ncid <- nc_open(paste(data_path,gcm_scenarios[2],'/',nc_file,sep='')), error = function(e) 
+    tryCatch(ncid <- nc_open(file.path(gcm_scenarios[2],nc_file)), error = function(e) 
     {
       cat("An error was encountered trying to open the OPeNDAP resource."); print(e)
     })
@@ -45,18 +45,14 @@ ensemble<-function(data_path, scenarios, start, end) {
         gcm_scenario<-tail(unlist(strsplit(gcm_scenarios[gcm_scenario_ind],'/')),n=1)
         if(grepl('r1i1p1', gcm_scenario) && grepl(scenario,gcm_scenario))
         {
-          print(gcm_scenario)
           # Open the file we need to add to the existing stuff.
-          ncid_in<-nc_open(paste(data_path,gcm_scenario,'/',file,sep=''))
+          ncid_in<-nc_open(file.path(data_path,gcm_scenario,file))
           # Get the data we need.
           var_data <- ncvar_get(ncid_in, varid=var_id)
-          if (input==1)
-          {
+          if (input==1) {
             ens_data<-var_data
             input<-input+1
-          }
-          else
-          {
+          } else {
             ens_data<-ens_data+var_data
             intput<-input+1
           }
@@ -64,12 +60,11 @@ ensemble<-function(data_path, scenarios, start, end) {
         }
       }
       # Get the thresholds we need. and put them in the output file.
-      ncid_in<-nc_open(paste(data_path,gcm_scenario,'/',file,sep=''))
+      ncid_in<-nc_open(file.path(data_path,gcm_scenario,file))
       ncvar_put(ncid_out,'threshold',ncvar_get(ncid_in,'threshold'))
       nc_close(ncid_in)
       # put the ensemble data in the output file.
       ens_data[is.nan(ens_data)]<--1
-      print('output')
       ens_data<-ens_data/input
       ncvar_put(ncid_out,var_id,ens_data)
       nc_close(ncid_out)
