@@ -61,23 +61,23 @@ derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   # Set up cluster.
   cl <- makeCluster(rep('localhost',cpus), type = "SOCK")
   
-#   # Run historical derivatives.
-#   data_path<-file.path(storage_root,path$historical_data_path)
-#   wd<-file.path(out_root,path$historical_path)
-#   print(wd)
-#   dir.create(wd, recursive = TRUE)
-#   nc_files<-list.files(data_path,pattern='*.nc')
-#   start <- "1950"
-#   end <- "2004"
-#   parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
-#             thresholds=thresholds, NetCDF_output=TRUE, wd=wd, data_path=data_path,sleep=(cpus*10))
+  # Run historical derivatives.
+  data_path<-file.path(storage_root,path$historical_data_path)
+  wd<-file.path(out_root,path$historical_path)
+  print(wd)
+  dir.create(wd, recursive = TRUE)
+  nc_files<-list.files(data_path,pattern='*r1i1p1*')
+  start <- "1950"
+  end <- "2004"
+  parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
+            thresholds=thresholds, NetCDF_output=TRUE, wd=wd, data_path=data_path,sleep=(cpus*10))
   
   # Run future derivatives.
   data_path<-file.path(storage_root,path$future_data_path)
   wd<-file.path(out_root,path$future_path)
   print(wd)
   dir.create(wd, recursive = TRUE)
-  nc_files<-list.files(data_path,pattern='*.nc')
+  nc_files<-list.files(data_path,pattern='*r1i1p1*')
   start <- "2006"
   end <- "2099"
   parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
