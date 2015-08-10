@@ -4,25 +4,15 @@ BCCA CMIP5 Derivative Preparation
 These scripts implement the climates R package. [**climates**](https://github.com/jjvanderwal/climates)
 They also make use of pyGDP. [**pyGDP**](https://github.com/USGS-CIDA/pyGDP)  
 
-Processing
-----------
-1. [derivatives_runner_local_cmip5.R](https://github.com/dblodgett-usgs/derivatives_runner/blob/master/derivatives_runner_local_cmip5.R) used to execute initial annual derivatives. Run once for future, once for historical.  
-  * [Annual gridded output for future here.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/cmip5_der/catalog.html) [Historical here.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/cmip5_hist_der/catalog.html)
-2. [ensembler.R](https://github.com/dblodgett-usgs/derivatives_runner/blob/master/ensembler.R) used to create ensemble data and maps. Ensemble content in links above.   
-3. periodizer.R used to generate climatological summaries. Run once for future, once for historical.  
-  * [Future here.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/cmip5_der_periods/catalog.html) [Historical here.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/cmip5_hist_der_periods/catalog.html) 
-4. [differencer.R](https://github.com/dblodgett-usgs/derivatives_runner/blob/master/differencer.R) used to create difference maps content.  
-  * [Content here.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/cmip5_der_diff/catalog.html)
-5. Run Geo Data Portal summarizations for annualized derivatives.  
-  * [pyGDP_runner.py](https://github.com/dblodgett-usgs/derivatives_runner/blob/master/pyGDP_runner.py) used to execute runs in parallel against a localhost copy of the data and the GDP. GDP output converted to DSG with [write_dsg.R](https://github.com/dblodgett-usgs/derivatives_runner/blob/master/write_dsg.R)
-  * [Content is here.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/spatial/catalog.html) Note that the csv files are raw GDP output. The NetCDF content is in folders there.
-  * [Shapefiles used are here.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/shapefiles/catalog.html)
+Package Description
+-------------------
+This package was used to orchestrate processing of derived climate indices based on the BCCA CMIP5 downscaled climate data. The main.R script is where environment specific paths go and calls to python scripts are documented. The R package encoded here is used to go from daily gridded climate projections to annual climate indices. The annual climate indices are then ensembled together, climatalogical summaries are calculated, and historical-future difference summaries are generated. These calculations are orchestrated by the code in derivatives\_runner.R.  
+
+With the derivative content created, a pair of python scripts are used against a localhost instance of the USGS Geo Data Portal and a THREDDS data server. Prior to calling those scripts, a script that generates .ncml aggregations for the data is run for the derivatives.
 
 Service Configuration
 ---------------------
-1. .ncml aggregations for all. [ncml_script.py](https://github.com/dblodgett-usgs/derivatives_runner/blob/master/ncml_script.py)
-2. [Deploy on THREDDS.](http://cida.usgs.gov/thredds/catalog/cmip5_bcca/derivatives/catalog.html)
-3. TODO: Configure ncWMS
+
 
 Ensemble Summary
 ------------
