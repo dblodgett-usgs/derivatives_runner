@@ -54,9 +54,6 @@ differencer<-function(out_path, future_path, historical_path, periods) {
         out_data<-array(1, dim=c(nrow(var_data_future),ncol(var_data_future),length(periods)-1))
       }
       for(per_ind in 1:(length(periods)-1)){
-        subtract<-function(future,historical) {
-          return(future-historical)
-        }
         if(length(dim(var_data_future))==4) {
           out_data<-apply(var_data_future, c(4), subtract, historical=var_data_hist)
         } else {

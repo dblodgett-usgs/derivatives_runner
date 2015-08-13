@@ -14,6 +14,7 @@
 par_runner<-function(start, end, bbox_in, thresholds, nc_file, NetCDF_output=TRUE, wd, data_path, sleep=10){
   library(climates)
   library(ncdf4)
+  library(PCICt)
   Sys.sleep(sample(1:sleep,1))
   dir.create(file.path(wd,gsub('.nc','',nc_file)),showWarnings=FALSE)
   setwd(file.path(wd,gsub('.nc','',nc_file)))

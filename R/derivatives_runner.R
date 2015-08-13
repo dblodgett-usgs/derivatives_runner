@@ -49,6 +49,10 @@ nc_creator_email='dblodgett@usgs.gov'
 nc_project='U.S. Geological Survey Geo Data Portal Climate Derivatives'
 nc_proc_level='Downscaled climate indices sampled to polygon areas of interest'
 
+subtract<-function(future,historical) {
+  return(future-historical)
+}
+
 #' Main Function to Run Derivatives
 #' 
 #' @param storage_root The root of the raw data
