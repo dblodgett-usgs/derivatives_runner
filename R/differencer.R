@@ -60,7 +60,7 @@ differencer<-function(out_path, future_path, historical_path, periods) {
           out_data<-apply(var_data_future, c(3), subtract, historical=var_data_hist)
         }
       }
-      out_data[is.nan(out_data)]<--1
+      out_data[is.nan(out_data)]<-as.double(ncatt_get(ncid_out,var_id,attname='missing_value')$value)
       ncvar_put(ncid_out,var_id,out_data)
       ncvar_put(ncid_out,'threshold',ncvar_get(ncid_future,'threshold'))
       nc_close(ncid_future)

@@ -55,7 +55,7 @@ periodize<-function(data_path, out_path, periods) {
           out_data[,,per_ind]<-round(apply(var_data[,,start_ind:end_ind], c(1,2), mean, na.rm = TRUE),digits=2)
         }
       }
-      out_data[is.nan(out_data)]<--1
+      out_data[is.nan(out_data)]<-as.double(ncatt_get(ncid_out,var_id,attname='missing_value')$value)
       ncvar_put(ncid_out,var_id,out_data)
       ncvar_put(ncid_out,'threshold',ncvar_get(ncid_in,'threshold'))
       nc_close(ncid_in)
