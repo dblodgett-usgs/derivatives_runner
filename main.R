@@ -26,4 +26,7 @@ gdp_output_root<-file.path(out_root,'pyGDP_output/run')
 dir.create(gdp_output_root, recursive = TRUE)
 
 # Kick off pyGDP
-system(paste(py_vert_env, pyGDP_runner, py_vert_env, pyGDP_script, gdp_output_root))
+system(paste(py_virt_env, pyGDP_runner, py_virt_env, pyGDP_script, gdp_output_root))
+
+# convert gdp output to netcdf.dsg
+write_dsg(file.path(out_root,'pyGDP_output/run'),cpus=24)
