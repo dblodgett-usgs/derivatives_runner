@@ -1,18 +1,15 @@
+#!/Volumes/Scratch/dblodgett_workspace/pyGDP/venv/bin/python
 import os
-import sys
 import subprocess
 import time
 import shlex
-executable=sys.argv[1]
-script=sys.argv[2]
-data_path=sys.argv[3]
 processes = []
-max_processes = 10
+max_processes = 25
 pause_time=2
 file_processing = 1
-while file_processing<10:
-    command=shlex.split(executable, script, data_path)
-    print str(file_processing)+ ' of ' + str(5)
+while file_processing<25:
+    command=shlex.split('/Volumes/Scratch/dblodgett_workspace/pyGDP/venv/bin/python /Volumes/Scratch/dblodgett_workspace/derivatives_runner/python/pyGDP_runner.py')
+    print str(file_processing)
     file_processing+=1
     processes.append(subprocess.Popen(command))
     if len(processes) < max_processes:

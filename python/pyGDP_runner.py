@@ -1,10 +1,6 @@
 import pyGDP
 import os
 import sys
-if os.path.isdir(sys.argv[1]):
-    os.chdir(sys.argv[1])
-else:
-    sys.exit('You have to pass in a path')
 
 pyGDP = pyGDP.pyGDPwebProcessing()
              
@@ -13,7 +9,8 @@ shapefiles={'derivative:CONUS_States':'STATE',
             'derivative:FWS_LCC':'area_names',
             'derivative:Level_III_Ecoregions':'LEVEL3_NAM',
             'derivative:NCA_Regions':'NCA_Region',
-            'derivative:wbdhu8_alb_simp':'HUC_8'}
+            'derivative:wbdhu8_alb_simp':'HUC_8',
+            'sample:CONUS_Climate_Divisions':'OBJECTID'}
           
 dataURIs=['http://localhost:8080/thredds/dodsC/Striped/final_derivatives/derivatives/ncml/longest_run_tmax_abv_cmip5_der.ncml',
           'http://localhost:8080/thredds/dodsC/Striped/final_derivatives/derivatives/ncml/longest_run_prcp_blw_cmip5_der.ncml',
