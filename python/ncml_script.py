@@ -49,12 +49,19 @@ for folder in folders:
                 w.write('<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">\n')
                 w.write('   <aggregation type="union">\n')
                 for gcm in gcms:
-                    print gcm
                     if not gcm.startswith('.') and scenario in gcm:
+                        print gcm
+                        if 'ensemble' in gcm:
+                            stName=gcm.replace('_'+scenario,'')
+                        else:
+                            stName=gcm.replace('_'+scenario+'_r1i1p1','')
+                        print stName
                         file_path=os.path.join('../'+folder,gcm,derivative)
                         w.write('       <netcdf location="'+file_path+'">\n')
                         varName=gcm+'-'+deriv
-                        w.write('           <variable orgName="'+deriv+'" name="'+varName+'"/>\n')
+                        w.write('           <variable orgName="'+deriv+'" name="'+varName+'">\n')
+                        w.write('               <attribute name="standard_name" value="'+stName+'"/>\n')
+                        w.write('           </variable>\n')
                         w.write('       </netcdf>\n')
                 w.write('   </aggregation>\n')
                 w.write('</netcdf>\n')
