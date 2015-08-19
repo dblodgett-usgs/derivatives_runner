@@ -9,6 +9,7 @@ else:
     
 wd=sys.argv[1]
 sosRoot=sys.argv[2] # like http://cida-eros-derivativedev.er.usgs.gov:8080/thredds/sos/bcca/sos/
+wmsRoot=sys.argv[3] # like http://cida-eros-derivativedev.er.usgs.gov:8080/thredds/wms/bcca/wms/
 
 derivatives={"cooling_degree_day.nc":["cooling_degree_days","Cooling Degree Days"],
             "days_tmax_abv.nc":["days_with_tmax_above","Days with Tmax Above"],
@@ -27,10 +28,10 @@ folder=folders[0]
 gcms=os.listdir(os.path.join(wd,'../',folder))
 for derivative in derivatives.keys():
     deriv=derivatives[derivative][0]
-    w=open(os.path.join(wd,deriv+'_scenarios.json'),'w')
+    w=open(os.path.join(wd,deriv+'.json'),'w')
     w.write('[\n')
     w.write('   {\n')
-    w.write('       "identifier" : "'+deriv+'"\n')
+    w.write('       "identifier" : "'+deriv+'",\n')
     w.write('       "descriptiveKeywords" : {\n')
     w.write('           "derivatives" : [\n')
     w.write('               "'+derivatives[derivative][1]+'"\n')
@@ -60,15 +61,40 @@ for derivative in derivatives.keys():
     w.write('       },\n')
     w.write('       "serviceIdentification" : {\n')
     w.write('           "sos" : "'+sosRoot+'{shapefile}/{gcm}_{scenario}-'+derivative.replace('.nc','')+'-{threshold}"\n')
-    w.write('       },\n')
-    w.write('   },\n')
-    w.write('],\n')
+    w.write('       }\n')
+    w.write('   }\n')
+    w.write(']\n')
     w.close()
-
-
-            #
-            # if not gcm.startswith('.') and scenario in gcm:
-            #     if 'ensemble' in gcm:
-            #         stName=gcm.replace('_'+scenario,'')
-            #     else:
-            #         stName=gcm.replace('_'+scenario+'_r1i1p1','')
+    w=open(os.path.join(wd,deriv+'_scenarios.json'),'w')
+    w.write('[\n')
+    init=1
+    for j, scenario in enumerate(scenarios.keys()):
+        if init == 1:
+            w.write('   {\n')
+            init+=1
+        w.write('       "identifier" : "'+deriv+'_'+scenario+'",\n')
+        w.write('       "descriptiveKeywords" : {\n')
+        w.write('           "scenarios" : [\n')
+        w.write('               "'+scenarios[scenario]+'"\n')
+        w.write('           ],\n')
+        w.write('		    "gcm" : [\n')
+        gcm_list=[]
+        for i, gcm in enumerate(gcms):
+            if not gcm.startswith('.') and scenario in gcm:
+                if 'ensemble' in gcm:
+                    stName=re.sub('_rcp..','',gcm)
+                else:
+                    stName=re.sub('_rcp.._r1i1p1','',gcm)
+                if stName not in gcm_list:
+                    gcm_list.append(stName)
+                    if i != len(gcms):
+                        w.write('               "'+stName+'",\n')
+                    else:
+                        w.write('               "'+stName+'"\n')
+        w.write('           ]\n')
+        w.write('       },\n')
+        w.write('       "serviceIdentification" : {\n')
+        w.write('           "wms" : "'+wmsRoot+derivative.replace('.nc','_'+scenario+'.ncml?service=WMS&version=1.1.1&request=GetCapabilities')+'"\n')
+        w.write('       }\n')
+        if j!= len(scenarios.keys()):
+            w.write('   },{\n')
