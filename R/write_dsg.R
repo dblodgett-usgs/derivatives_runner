@@ -40,11 +40,10 @@ parWriteDSG<-function(file) {
       meta<-list(name=varData$variable[1],long_name=long_name)
       thresholds<-unique(varData$threshold)
       for(threshold in thresholds) {
-        threshold<-thresholds[1]
         threshData<-varData[varData$threshold %in% threshold,]
         time<-threshData$DateTime
         dsgData<-threshData[2:(ncol(threshData)-4)]
-        threshold<-round(as.double(threshold),digits = 2)
+        threshold<-round(as.double(threshold))
         nc_file<-file.path(dirname(file),'nc',paste(varData$variable[1],'-',threshold,'.nc',sep=''))
         print(nc_file)
         nc_title<-paste(varData$variable[1],'threshold',threshold,sep=' ')
