@@ -29,4 +29,4 @@ dir.create(gdp_output_root, recursive = TRUE)
 system(paste(py_virt_env, pyGDP_runner, py_virt_env, pyGDP_script, gdp_output_root))
 
 # convert gdp output to netcdf.dsg
-write_dsg(file.path(out_root,'pyGDP_output/run'),cpus=24)
+write_dsg(file.path(out_root,'pyGDP_output/run'),cpus=cpus)
