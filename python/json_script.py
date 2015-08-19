@@ -61,7 +61,7 @@ for derivative in derivatives.keys():
     w.write('           ]\n')
     w.write('       },\n')
     w.write('       "serviceIdentification" : {\n')
-    w.write('           "sos" : "'+sosRoot+'{shapefile}/{gcm}_{scenario}-'+derivative.replace('.nc','')+'-{threshold}"\n')
+    w.write('           "sos" : "'+sosRoot+'{shapefile}/{gcm}_{scenario}_r1i1p1-'+derivative.replace('.nc','')+'-{threshold}.nc?observedProperty={gcm}_{scenario}_r1i1p1-'+derivative.replace('.nc','')+'&"\n')
     w.write('       }\n')
     w.write('   }\n')
     w.write(']\n')
@@ -96,7 +96,7 @@ for derivative in derivatives.keys():
         w.write('           ]\n')
         w.write('       },\n')
         w.write('       "serviceIdentification" : {\n')
-        w.write('           "wms" : "'+wmsRoot+derivative.replace('.nc','_cmip5_der_periods_'+scenario+'.ncml?service=WMS&version=1.1.1&request=GetCapabilities')+'"\n')
+        w.write('           "wms" : "'+wmsRoot+derivative.replace('.nc','_cmip5_der_periods_'+scenario+'.ncml')+'"\n')
         w.write('       }\n')
         if j != (len(scenarios.keys())-1):
             w.write('   },{\n')

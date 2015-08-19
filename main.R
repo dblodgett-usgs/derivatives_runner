@@ -30,3 +30,12 @@ system(paste(py_virt_env, pyGDP_runner, py_virt_env, pyGDP_script, gdp_output_ro
 
 # convert gdp output to netcdf.dsg
 write_dsg(file.path(out_root,'pyGDP_output/run'),cpus=cpus)
+
+# Move NetCDF files around.
+dirs<-list.dirs(file.path(out_root,'pyGDP_output/run'),recursive = FALSE)
+for(dir in dirs){
+  files<-list.files(path = file.path(dir,'nc'), pattern = '*.nc',full.names = TRUE)
+  for(file in files){
+    print(file.path(dir,basename(file)))
+  }
+}
