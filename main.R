@@ -36,6 +36,6 @@ dirs<-list.dirs(file.path(out_root,'pyGDP_output/run'),recursive = FALSE)
 for(dir in dirs){
   files<-list.files(path = file.path(dir,'nc'), pattern = '*.nc',full.names = TRUE)
   for(file in files){
-    print(file.path(dir,basename(file)))
+    file.rename(file, file.path(dir,basename(file)))
   }
 }

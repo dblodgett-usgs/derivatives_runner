@@ -30,8 +30,8 @@ makeConfig <- function(path, minVector, maxVector) {
 	for (i in 1:length(varNames)) {
 		for (j in 1:length(gcms)) {
 		  for (k in 1:length(scenarios)){
-		    if (grepl('ensemble', scenarios[k])) {
-			    name = paste0(gcms[j], "-", varNames[i])
+		    if (grepl('ensemble', gcms[j])) {
+			    name = paste0(gcms[j],"_", scenarios[k], "-", varNames[i])
 		    } else {
 		      name = paste0(gcms[j],"_",scenarios[k], "_r1i1p1-", varNames[i])
 		    }
