@@ -38,7 +38,7 @@ for derivative in derivatives.keys():
     w.write('           ],\n')
     w.write('           "scenarios" : [\n')
     for i, scenario in enumerate(scenarios.keys()):
-        if i != len(scenarios.keys()):
+        if i != (len(scenarios.keys())-1):
             w.write('               "'+scenarios[scenario]+'",\n')
         else:
             w.write('               "'+scenarios[scenario]+'"\n')
@@ -53,10 +53,11 @@ for derivative in derivatives.keys():
                 stName=re.sub('_rcp.._r1i1p1','',gcm)
             if stName not in gcm_list:
                 gcm_list.append(stName)
-                if i != len(gcms):
-                    w.write('               "'+stName+'",\n')
-                else:
-                    w.write('               "'+stName+'"\n')
+    for i, stName in enumerate(gcm_list):
+        if i != (len(gcm_list)-1):
+            w.write('               "'+stName+'",\n')
+        else:
+            w.write('               "'+stName+'"\n')
     w.write('           ]\n')
     w.write('       },\n')
     w.write('       "serviceIdentification" : {\n')
@@ -87,14 +88,20 @@ for derivative in derivatives.keys():
                     stName=re.sub('_rcp.._r1i1p1','',gcm)
                 if stName not in gcm_list:
                     gcm_list.append(stName)
-                    if i != len(gcms):
-                        w.write('               "'+stName+'",\n')
-                    else:
-                        w.write('               "'+stName+'"\n')
+        for i, stName in enumerate(gcm_list):
+            if i != (len(gcm_list)-1):
+                w.write('               "'+stName+'",\n')
+            else:
+                w.write('               "'+stName+'"\n')
         w.write('           ]\n')
         w.write('       },\n')
         w.write('       "serviceIdentification" : {\n')
-        w.write('           "wms" : "'+wmsRoot+derivative.replace('.nc','_'+scenario+'.ncml?service=WMS&version=1.1.1&request=GetCapabilities')+'"\n')
+        w.write('           "wms" : "'+wmsRoot+derivative.replace('.nc','_cmip5_der_periods_'+scenario+'.ncml?service=WMS&version=1.1.1&request=GetCapabilities')+'"\n')
         w.write('       }\n')
-        if j!= len(scenarios.keys()):
+        if j != (len(scenarios.keys())-1):
             w.write('   },{\n')
+        else:
+            w.write('   }\n')
+    w.write(']\n')
+    w.close()
+            
