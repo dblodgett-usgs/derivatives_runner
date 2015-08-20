@@ -23,7 +23,8 @@ deltaMaxes = c(2500, 100, 900,
 			   0, 150, 5,
 			   0, 100, 50)
 
-servicePath <- "cmip5_bcca/derivatives/*"
+servicePath <- "cmip5_bcca/derivatives/*der_periods*"
+diffServicePath <- "cmip5_bcca/derivatives/*der_diff_rcp*"
 
 makeConfig <- function(path, minVector, maxVector) {
 	df <- data.frame(character(0), numeric(0), numeric(0))
@@ -45,7 +46,8 @@ makeConfig <- function(path, minVector, maxVector) {
 	return(list(servicePath=path, vars=vars))
 }
 
-data <- list(services=list(makeConfig(servicePath, mins, maxes)))
+data <- list(services=list(makeConfig(servicePath, mins, maxes),
+                           makeConfig(diffServicePath, deltaMins, deltaMaxes)))
 
 # any other variables may be added to the template
 template <- readLines("./wmsConfig-template.xml")
