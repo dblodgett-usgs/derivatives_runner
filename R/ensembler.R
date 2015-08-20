@@ -54,7 +54,7 @@ ensemble<-function(data_path, scenarios, start, end) {
             input<-input+1
           } else {
             ens_data<-ens_data+var_data
-            intput<-input+1
+            input<-input+1
           }
           nc_close(ncid_in) 
         }
