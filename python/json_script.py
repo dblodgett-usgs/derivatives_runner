@@ -21,7 +21,7 @@ derivatives={"cooling_degree_day.nc":["cooling_degree_days","Cooling Degree Days
             "growing_season_lngth.nc":["growing_season_length","Growing Season Length"],
             "longest_run_prcp_blw.nc":["longest_run_with_precip_below","Longest Run with Precip Below"]}            
 
-scenarios={"rcp26":"RCP85","rcp45":"RCP45","rcp60":"RCP60","rcp85":"RCP85"}
+scenarios={"rcp26":"RCP26","rcp45":"RCP45","rcp60":"RCP60","rcp85":"RCP85"}
 
 folders=["cmip5_der_periods","cmip5_der_diff"]
 folder=folders[0]
@@ -96,7 +96,7 @@ for derivative in derivatives.keys():
         w.write('           ]\n')
         w.write('       },\n')
         w.write('       "serviceIdentification" : {\n')
-        w.write('           "wms" : "'+wmsRoot+derivative.replace('.nc','_cmip5_der_periods_'+scenario+'.ncml')+'"\n')
+        w.write('           "wms" : "'+wmsRoot+derivative.replace('.nc','_cmip5_der_periods_'+scenario+'.ncml')+'?service=WMS&version=1.1.1&request=GetCapabilities"\n')
         w.write('       }\n')
         if j != (len(scenarios.keys())-1):
             w.write('   },{\n')
