@@ -2,7 +2,7 @@ library(derivativesRunner)
 
 # Set script constants
 storage_root<-'/Volumes/Scratch/thredds/bcca/bcca/cmip5' # Where all the raw data is.
-out_root<-'/Volumes/Striped/final_derivatives' # Where data will get written to durring processing.
+out_root<-'~/Desktop/final_derivatives' # Where data will get written to durring processing.
 package_files<-'/Volumes/Scratch/dblodgett_workspace/derivatives_runner' # There's probably a better way.
 bbox_in<-c(-67.06,52.81,-124.6,25.18) # bbox of the data.
 cpus<-25
