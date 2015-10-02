@@ -8,7 +8,7 @@ varNames = c("cooling_degree_day","days_tmax_abv","growing_degree_day",
              "heating_degree_day","longest_run_tmax_abv","days_prcp_abv",
              "days_tmin_blw","growing_season_lngth","longest_run_prcp_blw")
 
-scenarios = c("rcp26", "rcp45", "rcp60", "rcp85")
+scenarios = c("rcp26", "rcp45", "rcp60", "rcp85", "historical")
 
 mins = c(0, 0, 0,
 		 0, 0, 0,
