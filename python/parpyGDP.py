@@ -4,10 +4,10 @@ import subprocess
 import time
 import shlex
 processes = []
-max_processes = 25
+max_processes = 24
 pause_time=2
 file_processing = 1
-while file_processing<25:
+while file_processing<max_processes:
     command=shlex.split('/Volumes/Scratch/dblodgett_workspace/pyGDP/venv/bin/python /Volumes/Scratch/dblodgett_workspace/derivatives_runner/python/pyGDP_runner.py')
     print str(file_processing)
     file_processing+=1
