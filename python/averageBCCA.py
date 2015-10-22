@@ -33,6 +33,7 @@ if __name__ == '__main__':
 	parser.add_argument('varname', type=str)
 	parser.add_argument('period', type=str)
 	parser.add_argument('outfileprefix', type=str)
+	parser.add_argument('outfolder', type=str)
 	args = parser.parse_args()
 	#_/_/_/_/_/_/_/_/_/_/_/_/ User defined input _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 	
@@ -57,6 +58,8 @@ if __name__ == '__main__':
 
 	#define the output netcdf file name
 	outfileprefix = args.outfileprefix # "BCCA_0.125deg_tasmax_ACCESS1-0_historical_"
+	
+	outfolder = args.outfolder
 
 	#_/_/_/_/_/_/_/_/_/_/_/_/ End of user defined input _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -70,7 +73,7 @@ if __name__ == '__main__':
 		yndx1 = yndx1.days
 		yndx2 = date(newyyyy,12,31) - timeorigin
 		yndx2 = yndx2.days
-		newfilename = "outfileprefix"+"truncated.nc.tmp"
+		newfilename = outfileprefix+"truncated.nc.tmp"
 		cmd = "ncks -d time,"+str(yndx1)+","+str(yndx2)+" -v "+varname+" "+filename+" "+newfilename
 		FNULL = open(os.devnull, 'w')
 		process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
@@ -89,8 +92,6 @@ if __name__ == '__main__':
 			cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+newfilename+" "+outfileprefix+str(newyyyy)+"_"+seasonstr[j]+"_seasonal.nc"
 			FNULL = open(os.devnull, 'w')
 			process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
-		cmd1 = "mv *.nc ./CDF/seasonal"
-		subprocess.call(cmd1,shell=True)	
 		#finished with seasonal processing
 		
 		
@@ -103,9 +104,7 @@ if __name__ == '__main__':
 		dndx2 = dndx2.days
 		cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+filename+" "+outfileprefix+str(newyyyy)+"_annual.nc"
 		FNULL = open(os.devnull, 'w')
-		process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
-		cmd1 = "mv *.nc ./CDF/annual"
-		subprocess.call(cmd1,shell=True)	
+		process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)	
 		#finished with annual processing
 
 
@@ -124,10 +123,11 @@ if __name__ == '__main__':
 			dndx2 = dndx2.days
 			cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+filename+" "+outfileprefix+str(newyyyy)+monstr+"_monthly.nc"
 			FNULL = open(os.devnull, 'w')
-			process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
-		cmd1 = "mv *.nc ./CDF/monthly"
-		subprocess.call(cmd1,shell=True)	
+			process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)	
 		#finished with monthly processing
 		
 		cmd2 = "rm "+newfilename
 		subprocess.call(cmd2,shell=True)
+		
+		cmd1 = "mv "+outfileprefix+"* "+outfolder
+		subprocess.call(cmd1,shell=True)
