@@ -102,7 +102,7 @@ if __name__ == '__main__':
 		dndx1 = dndx1.days
 		dndx2 = (date(newyyyy,12,31) - newtimeorigin)
 		dndx2 = dndx2.days
-		cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+filename+" "+outfileprefix+str(newyyyy)+"_annual.nc"
+		cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+newfilename+" "+outfileprefix+str(newyyyy)+"_annual.nc"
 		FNULL = open(os.devnull, 'w')
 		process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)	
 		#finished with annual processing
@@ -121,7 +121,7 @@ if __name__ == '__main__':
 			ndaysinmonth = cal.monthrange(newyyyy, ndx)[1]
 			dndx2 = (date(newyyyy,ndx,ndaysinmonth) - newtimeorigin)
 			dndx2 = dndx2.days
-			cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+filename+" "+outfileprefix+str(newyyyy)+monstr+"_monthly.nc"
+			cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+newfilename+" "+outfileprefix+str(newyyyy)+monstr+"_monthly.nc"
 			FNULL = open(os.devnull, 'w')
 			process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)	
 		#finished with monthly processing
