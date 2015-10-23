@@ -4,7 +4,7 @@ import subprocess
 import time
 import shlex
 processes = []
-max_processes = 28
+max_processes = 25
 pause_time=2
 file_processing = 1
 files=("ACCESS1-0_rcp45_r1i1p1.nc",
@@ -144,13 +144,14 @@ files=("ACCESS1-0_rcp45_r1i1p1.nc",
 tasmax=True
 
 while file_processing<max_processes:
+	print str(file_processing)
 	if tasmax:
 		command=shlex.split("python averageBCCA.py /Volumes/Scratch/thredds/bcca/bcca/cmip5/data/rcp/"+files[file_processing-1]+" BCCA_0-125deg_tasmax_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmax /Volumes/temp_striped/")
 		tasmax=False
 	else:
 		command=shlex.split("python averageBCCA.py /Volumes/Scratch/thredds/bcca/bcca/cmip5/data/rcp/"+files[file_processing-1]+" BCCA_0-125deg_tasmin_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmin /Volumes/temp_striped/")
 		file_processing+=1
-	print str(file_processing)
+		tasmax=True
 	processes.append(subprocess.Popen(command))
 	if len(processes) < max_processes:
 		time.sleep(pause_time)
