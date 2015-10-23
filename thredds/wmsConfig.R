@@ -13,15 +13,15 @@ scenarios = c("rcp26", "rcp45", "rcp60", "rcp85", "historical")
 mins = c(0, 0, 0,
 		 0, 0, 0,
 		 0, 0, 0)
-maxes = c(6000, 366, 7000,
-		  10000, 250, 75,
-		  366, 366, 366)
+maxes = c(4000, 250, 5500,
+		  7500, 125, 50,
+		  250, 366, 200)
 deltaMins = c(0, 0, 0,
-			  -3000, 0, -5,
+			  -2200, 0, -1,
 			  -100, -10, -25)
-deltaMaxes = c(2500, 100, 900,
+deltaMaxes = c(1200, 100, 1300,
 			   0, 150, 5,
-			   0, 100, 50)
+			   0, 100, 25)
 
 servicePath <- "cmip5_bcca/derivatives/*der_periods*"
 diffServicePath <- "cmip5_bcca/derivatives/*der_diff_rcp*"
