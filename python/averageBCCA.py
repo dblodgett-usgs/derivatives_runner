@@ -78,19 +78,38 @@ if __name__ == '__main__':
 		FNULL = open(os.devnull, 'w')
 		process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
 
+		#Creating a special cdf for the seasonal calculations since we need the current and following year
+		#to get DJF, where Jan and Feb are from the following year
+		sndx1 = date(newyyyy,1,1) - timeorigin
+		sndx1 = sndx1.days
+		sndx2 = date(newyyyy+1,12,31) - timeorigin
+		sndx2 = sndx2.days
+		seasfilename = outfileprefix+"truncated.seas.nc.tmp"
+		if(newyyyy != yyyy[len(yyyy)-1]):
+			cmd = "ncks -d time,"+str(sndx1)+","+str(sndx2)+" -v "+varname+" "+filename+" "+seasfilename
+			FNULL = open(os.devnull, 'w')
+			process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
+		
 		#Process all of the seasonal averages for the given variable
 		#Define the "season months"
-		seasonstr = ["DJF","MAM","JJA","SON"]
-		seasons = [[12,1,2],[3,4,5],[6,7,8],[9,10,11]]
+		seasonstr = ["03-05","06-08","09-11","12-02"]
+		seasons = [[3,4,5],[6,7,8],[9,10,11],[12,1,2]]
 		for j in range(4):
-			if(newyyyy == timeorigin.year and j == 0): continue
+			if(newyyyy == yyyy[len(yyyy)-1]): 
+				seasfilename = newfilename
+				if(j == 3): continue
 			dndx1 = (date(newyyyy,seasons[j][0],1) - newtimeorigin)
 			dndx1 = dndx1.days
-			ndaysinmonth = cal.monthrange(newyyyy, seasons[j][2])[1]
-			dndx2 = (date(newyyyy,seasons[j][2],ndaysinmonth) - newtimeorigin)
-			dndx2 = dndx2.days
-			cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+newfilename+" "+outfileprefix+str(newyyyy)+"_"+seasonstr[j]+"_seasonal.nc"
-			FNULL = open(os.devnull, 'w')
+			if(j != 3):
+				ndaysinmonth = cal.monthrange(newyyyy, seasons[j][2])[1]
+				dndx2 = (date(newyyyy,seasons[j][2],ndaysinmonth) - newtimeorigin)
+				dndx2 = dndx2.days
+			if(j == 3):
+				ndaysinmonth = cal.monthrange(newyyyy+1, seasons[j][2])[1]
+				dndx2 = (date(newyyyy+1,seasons[j][2],ndaysinmonth) - newtimeorigin)
+				dndx2 = dndx2.days
+			cmd = "ncwa -a time -d time,"+str(dndx1)+","+str(dndx2)+",1 -v "+varname+" "+seasfilename+" "+outfileprefix+str(newyyyy)+seasonstr[j]+"_seasonal.nc"
+			FNULL = open(os.devnull, 'w')			
 			process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
 		#finished with seasonal processing
 		
