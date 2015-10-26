@@ -1,6 +1,6 @@
 library(whisker)
 
-gcms = c("ensemble", "ACCESS1-0","bcc-csm1-1","BNU-ESM","CanESM2","CCSM4","CESM1-BGC","CSIRO-Mk3-6-0","GFDL-CM3",
+gcms = c("ensemble", "ACCESS1-0","bcc-csm1-1","BNU-ESM","CanESM2","CCSM4","CESM1-BGC","CNRM-CM5","CSIRO-Mk3-6-0","GFDL-CM3",
          "GFDL-ESM2G","GFDL-ESM2M","inmcm4","IPSL-CM5A-LR","IPSL-CM5A-MR","MIROC-ESM","MIROC-ESM-CHEM",
          "MIROC5","MPI-ESM-LR","MPI-ESM-MR","MRI-CGCM3","NorESM1-M")
 
@@ -13,15 +13,16 @@ scenarios = c("rcp26", "rcp45", "rcp60", "rcp85", "historical")
 mins = c(0, 0, 0,
 		 0, 0, 0,
 		 0, 0, 0)
-maxes = c(4000, 250, 5500,
-		  7500, 125, 50,
-		  250, 366, 200)
+maxes = c(4000, 240, 5200,
+		  7600, 128, 52,
+		  240, 368, 200)
 deltaMins = c(0, 0, 0,
 			  -2200, 0, -1,
-			  -100, -10, -25)
+			  -100, -10, -24)
 deltaMaxes = c(1200, 100, 1300,
-			   0, 150, 5,
-			   0, 100, 25)
+			   0, 152, 7,
+			   0, 90, 24)
+(deltaMins-deltaMaxes)/4
 
 servicePath <- "cmip5_bcca/derivatives/*der_periods*"
 diffServicePath <- "cmip5_bcca/derivatives/*der_diff_rcp*"
