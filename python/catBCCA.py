@@ -28,20 +28,24 @@ if __name__ == '__main__':
     
 	parser = argparse.ArgumentParser()
 	parser.add_argument('sourceDir', type=str)
-	parser.add_argument('outfileprefix', type=str)
+	parser.add_argument('fileprefix', type=str)
+	parser.add.argument('fileprod', type=str)
 	parser.add_argument('outfolder', type=str)
 	args = parser.parse_args()
 	
 	#The daily file (e.g., source of daily data) 
 	sourceDir = args.sourceDir
 	
-	#define the output netcdf file name
-	outfileprefix = args.outfileprefix # "BCCA_0.125deg_tasmax_ACCESS1-0_historical_"
+	#define the input/output netcdf file name prefix
+	fileprefix = args.fileprefix # "BCCA_0.125deg_tasmax_ACCESS1-0_historical_"
+	
+	#define the product (e.g., tasmax, tasmin, pr)
+	fileprod = args.fileprod
 	
 	outfolder = args.outfolder
 
 
-	files = glob.glob(sourceDir+"/*.nc")
+	files = glob.glob(sourceDir+"/"+fileprefix+"*"+fileprod+"*.nc")
 	files.sort()
 
 	for file in files:
@@ -57,8 +61,8 @@ if __name__ == '__main__':
 			process = subprocess.call(cmd,shell=True)#,stdout=FNULL,stderr=subprocess.STDOUT)
 	
 	
-	cmd = "ncrcat "+" ".join(files)+" "+outfileprefix+"_merged.nc"
+	cmd = "ncrcat "+" ".join(files)+" "+fileprefix+"_merged.nc"
 	process = subprocess.call(cmd,shell=True)
 	
-	cmd1 = "mv "+outfileprefix+"* "+outfolder
+	cmd1 = "mv "+fileprefix+"* "+outfolder
 	subprocess.call(cmd1,shell=True)
