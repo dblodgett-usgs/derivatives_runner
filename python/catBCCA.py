@@ -29,7 +29,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('sourceDir', type=str)
 	parser.add_argument('fileprefix', type=str)
-	parser.add.argument('fileprod', type=str)
+	parser.add_argument('fileprod', type=str)
 	parser.add_argument('outfolder', type=str)
 	args = parser.parse_args()
 	
