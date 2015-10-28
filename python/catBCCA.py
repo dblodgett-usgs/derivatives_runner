@@ -53,15 +53,15 @@ if __name__ == '__main__':
 		cmd = "ncdump -h "+file+" | grep UNLIMITED"
 		rtest = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
 		if(len(rtest.stdout.read()) == 0):
-			cmd = "ncecat -O -u time "+file+" "+file
+			cmd = "ncecat -h -O -u time "+file+" "+file
 			FNULL = open(os.devnull, 'w')
 			process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
-			cmd = "ncks -O --mk_rec_dmn time "+file+" "+file
+			cmd = "ncks -h -O --mk_rec_dmn time "+file+" "+file
 			FNULL = open(os.devnull, 'w')
 			process = subprocess.call(cmd,shell=True)#,stdout=FNULL,stderr=subprocess.STDOUT)
 	
 	
-	cmd = "ncrcat "+" ".join(files)+" "+fileprefix+"_merged.nc"
+	cmd = "ncrcat -h "+" ".join(files)+" "+fileprefix+"_"+fileprod+"_merged.nc"
 	process = subprocess.call(cmd,shell=True)
 	
 	cmd1 = "mv "+fileprefix+"* "+outfolder
