@@ -147,19 +147,22 @@ commands=[]
 for i in range(len(files)):
 	for j in range(len(products)):
 		for k in range(len(temps)):
-			commands.append(shlex.split("python catBCCA.py /Volumes/temp_striped/ "+files[i].replace('.nc','')+"_"+temps[k]+" "+products[j]+" /Volumes/scratch2/out"))
+			if os.path.isfile("/Volumes/scratch2/out/"+files[i].replace('.nc','')+"_"+temps[k]+"_"+products[j]+"_merged.nc")==False:
+				commands.append(shlex.split("python catBCCA.py /Volumes/temp_striped/ "+files[i].replace('.nc','')+"_"+temps[k]+" "+products[j]+" /Volumes/scratch2/out"))
 file_processing=0
 for command in commands:
-	while file_processing<len(commands):
-		print str(file_processing)
-		processes.append(subprocess.Popen(commands[file_processing]))
-		file_processing+=1
-		if len(processes) < max_processes:
-			time.sleep(pause_time)
-		while len(processes) >= max_processes:
-			time.sleep(pause_time*2)
-			processes = [proc for proc in processes if proc.poll() is None]
-
-	while len(processes) > 0:
+	print command	
+while file_processing<len(commands):
+	print str(file_processing)
+	print commands[file_processing]
+	processes.append(subprocess.Popen(commands[file_processing]))
+	file_processing+=1
+	if len(processes) < max_processes:
 		time.sleep(pause_time)
+	while len(processes) >= max_processes:
+		time.sleep(pause_time*2)
 		processes = [proc for proc in processes if proc.poll() is None]
+
+while len(processes) > 0:
+	time.sleep(pause_time)
+	processes = [proc for proc in processes if proc.poll() is None]
