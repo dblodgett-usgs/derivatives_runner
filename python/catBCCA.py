@@ -3,18 +3,17 @@
 '''*************************************************************************************************
 Program: catBCCA.py
 
-Usage: Either from command line or during a python (or ipython) session
-	command line
-	>./catBCCA.py [args]
-	or from ipython:
-	In [1]: %run catBCCA.py [args]
-
 Synopsis:
-A simple python script that iterates through a set of BCCA netCDF files adding the time record
+A python script that iterates through a set of BCCA netCDF files adding the time record
 and then concatenating all the individual files into one collection 
 
+Usage: ./catBCCA.py [args]
+
+Arguments:
 sourceDir		-	The directory containing the source files
-outfileprefix	-	The prefix of the resulting netCDF file
+fileprefix		-	The prefix of the input (and resulting output) netCDF files
+fileprod		-	The type of file to be merged (seasonal, annual, or monthly)
+outfolder		-	The destination folder for output
 
 *************************************************************************************************'''
 
@@ -37,7 +36,7 @@ if __name__ == '__main__':
 	sourceDir = args.sourceDir
 	
 	#define the input/output netcdf file name prefix
-	fileprefix = args.fileprefix # "BCCA_0.125deg_tasmax_ACCESS1-0_historical_"
+	fileprefix = args.fileprefix
 	
 	#define the product (e.g., tasmax, tasmin, pr)
 	fileprod = args.fileprod
