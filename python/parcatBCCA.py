@@ -4,7 +4,7 @@ import subprocess
 import time
 import shlex
 processes = []
-max_processes = 25
+max_processes = 4
 pause_time=2
 file_processing = 1
 files=("ACCESS1-0_rcp45_r1i1p1.nc",
@@ -141,18 +141,22 @@ files=("ACCESS1-0_rcp45_r1i1p1.nc",
 "bcc-csm1-1_rcp85_r1i1p1.nc",
 "inmcm4_rcp45_r1i1p1.nc",
 "inmcm4_rcp85_r1i1p1.nc")
-tasmax=True
-
-while file_processing<len(files):
+products=['monthly','annual', 'seasonal']
+temps=['tasmax','tasmin']
+commands=[]
+for i in range(len(files)):
+	for j in range(len(products)):
+		for k in range(len(temps)):
+			if os.path.isfile("/Volumes/scratch2/out/"+files[i].replace('.nc','')+"_"+temps[k]+"_"+products[j]+"_merged.nc")==False:
+				commands.append(shlex.split("python catBCCA.py /Volumes/temp_striped/ "+files[i].replace('.nc','')+"_"+temps[k]+" "+products[j]+" /Volumes/scratch2/out"))
+file_processing=0
+for command in commands:
+	print command	
+while file_processing<len(commands):
 	print str(file_processing)
-	if tasmax:
-		command=shlex.split("python averageBCCA.py /Volumes/temp_striped/data/"+files[file_processing-1]+" BCCA_0-125deg_tasmax_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmax /Volumes/temp_striped/")
-		tasmax=False
-	else:
-		command=shlex.split("python averageBCCA.py /Volumes/temp_striped/data/"+files[file_processing-1]+" BCCA_0-125deg_tasmin_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmin /Volumes/temp_striped/")
-		file_processing+=1
-		tasmax=True
-	processes.append(subprocess.Popen(command))
+	print commands[file_processing]
+	processes.append(subprocess.Popen(commands[file_processing]))
+	file_processing+=1
 	if len(processes) < max_processes:
 		time.sleep(pause_time)
 	while len(processes) >= max_processes:
