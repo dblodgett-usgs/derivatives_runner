@@ -142,6 +142,7 @@ files=("ACCESS1-0_rcp45_r1i1p1.nc",
 "inmcm4_rcp45_r1i1p1.nc",
 "inmcm4_rcp85_r1i1p1.nc")
 products=['monthly','annual', 'seasonal']
+products=['seasonal']
 temps=['tasmax','tasmin']
 commands=[]
 for i in range(len(files)):
