@@ -1,9 +1,12 @@
 path<-list(
+  obs_data_path='data/obs',
   historical_data_path='data/historical', # Where the raw historical data originates
   future_data_path='data/rcp', # Where the raw future data originates
   future_path='derivatives/cmip5_der', # Where the future derivatives get moved to.
   historical_path='derivatives/cmip5_hist_der', # Where the historical derivatives get moved to.
-  historical_periods_path='derivatives/cmip5_hist_der_periods', # Where the historical periods go 
+  obs_path='derivatives/cmip5_obs_der',
+  historical_periods_path='derivatives/cmip5_hist_der_periods', # Where the historical periods go.
+  obs_periods_path='derivatives/cmip5_obs_der_periods',
   future_periods_path='derivatives/cmip5_der_periods', # Where the future periods go.
   difference_path='derivatives/cmip5_der_diff') # Where the difference output gos.
 
@@ -65,6 +68,19 @@ derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   # Set up cluster.
   cl <- makeCluster(rep('localhost',cpus), type = "SOCK")
   
+  # Run obs derivatives.
+  wd<-file.path(out_root,path$obs_path)
+  dir.create(wd, recursive = TRUE)
+  setwd(wd)
+  tmax_var<-'tasmax'
+  tmin_var<-'tasmin'
+  prcp_var<-'pr'
+  tave_var<-NULL
+  nc_file<-'http://localhost:8080/thredds/dodsC/Scratch/thredds/new_gmo/GMO_w_meta.ncml'
+  start <- "1950"
+  end <- "2006"
+  dap_daily_stats(start,end,bbox_in,thresholds,nc_file,tmax_var,tmin_var,tave_var,prcp_var, NetCDF_output=TRUE)
+  
   # Run historical derivatives.
   data_path<-file.path(storage_root,path$historical_data_path)
   wd<-file.path(out_root,path$historical_path)
@@ -72,7 +88,7 @@ derivatives_runner_fun<-function(storage_root, out_root, bbox_in, cpus) {
   dir.create(wd, recursive = TRUE)
   nc_files<-list.files(data_path,pattern='*r1i1p1*')
   start <- "1950"
-  end <- "2004"
+  end <- "2006"
   parSapply(cl,nc_files,par_runner,start=start,end=end,bbox_in=bbox_in,
             thresholds=thresholds, NetCDF_output=TRUE, wd=wd, data_path=data_path,sleep=(cpus*10))
   
