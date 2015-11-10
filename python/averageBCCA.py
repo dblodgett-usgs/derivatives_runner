@@ -47,6 +47,9 @@ if __name__ == '__main__':
 	elif period=='hist':
 		yyyy=range(1950,2006)
 		timeorigin = date(1950,1,1)
+	elif period=='new_gmo':
+		yyyy=range(1950,2011)
+		timeorigin = date(1950,1,1)
 
 
 	#define the output netcdf file name
@@ -65,7 +68,7 @@ if __name__ == '__main__':
 		yndx2 = date(newyyyy,12,31) - timeorigin
 		yndx2 = yndx2.days
 		newfilename = outfileprefix+"truncated.nc.tmp"
-		cmd = "ncks -d time,"+str(yndx1)+","+str(yndx2)+" -v "+varname+" "+filename+" "+newfilename
+		cmd = "ncks --no_blank -d time,"+str(yndx1)+","+str(yndx2)+" -v "+varname+" "+filename+" "+newfilename
 		FNULL = open(os.devnull, 'w')
 		process = subprocess.call(cmd,shell=True,stdout=FNULL,stderr=subprocess.STDOUT)
 
