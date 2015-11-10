@@ -3,21 +3,18 @@
 '''*************************************************************************************************
 Program: averageBCCA.py
 
-Usage: Either from command line or during a python (or ipython) session
-	command line
-	>./averageBCCA.py
-	or from ipython:
-	In [1]: %run averageBCCA.py
-
 Synopsis:
 A simple python script that iterates through the various climatological periods and averages the
-CMIP5 BCCA data for a given model and/or emissions scenario (for future projections). Currently,
-this script requires user input entered below via your favorite editor:
+CMIP5 BCCA data for a given model and/or emissions scenario (for future projections).
+
+Usage: ./averageBCCA.py [args]
+
+Arguments:
 filename		-	The desired source file
-varname			-	The variable to be operated on
-yyyy			-	Year(s) of interest
-timeorigin		-	Starting date in source file
+varname			-	The variable to be used (tasmax, tasmin, pr)
+period			-	The period of interest, either historical (hist), or future (rcp)
 outfileprefix	-	The prefix of the resulting netCDF file
+outfolder		-	The destination folder for output
 
 *************************************************************************************************'''
 
@@ -35,10 +32,9 @@ if __name__ == '__main__':
 	parser.add_argument('outfileprefix', type=str)
 	parser.add_argument('outfolder', type=str)
 	args = parser.parse_args()
-	#_/_/_/_/_/_/_/_/_/_/_/_/ User defined input _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 	
 	#The daily file (e.g., source of daily data) 
-	filename = args.filename # "./CDF/daily/BCCA_0.125deg_tasmax_day_ACCESS1-0_historical_r1i1p1_20000101-20051231.nc"
+	filename = args.filename
 	
 	#Variable name
 	varname = args.varname # "tasmax"
@@ -52,17 +48,12 @@ if __name__ == '__main__':
 		yyyy=range(1950,2006)
 		timeorigin = date(1950,1,1)
 
-	#Initial date in the data
-	# #timeorigin = date(1950, 1, 1)
-	# timeorigin = date(2000, 1, 1) ####### TESTING on CISRO historical tsmax file from 2000-2005
 
 	#define the output netcdf file name
-	outfileprefix = args.outfileprefix # "BCCA_0.125deg_tasmax_ACCESS1-0_historical_"
+	outfileprefix = args.outfileprefix
 	
+	#Define the destination folder for the output
 	outfolder = args.outfolder
-
-	#_/_/_/_/_/_/_/_/_/_/_/_/ End of user defined input _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
 
 
 
