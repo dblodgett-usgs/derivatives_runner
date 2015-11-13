@@ -4,7 +4,7 @@ import subprocess
 import time
 import shlex
 processes = []
-max_processes = 25
+max_processes = 12
 pause_time=2
 file_processing = 1
 files=("ACCESS1-0_rcp45_r1i1p1.nc",
@@ -18,7 +18,7 @@ files=("ACCESS1-0_rcp45_r1i1p1.nc",
 "CCSM4_rcp60_r1i1p1.nc",
 # "CCSM4_rcp60_r2i1p1.nc",
 "CCSM4_rcp85_r1i1p1.nc",
-# "CCSM4_rcp85_r2i1p1.nc",
+"CCSM4_rcp85_r2i1p1.nc",
 "CESM1-BGC_rcp45_r1i1p1.nc",
 "CESM1-BGC_rcp85_r1i1p1.nc",
 "CNRM-CM5_rcp45_r1i1p1.nc",
@@ -142,23 +142,27 @@ files=("ACCESS1-0_rcp45_r1i1p1.nc",
 "inmcm4_rcp45_r1i1p1.nc",
 "inmcm4_rcp85_r1i1p1.nc")
 tasmax=True
-
-while file_processing<len(files):
-	print str(file_processing)
-	if tasmax:
-		command=shlex.split("python averageBCCA.py /Volumes/temp_striped/data/"+files[file_processing-1]+" BCCA_0-125deg_tasmax_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmax /Volumes/temp_striped/")
-		tasmax=False
-	else:
-		command=shlex.split("python averageBCCA.py /Volumes/temp_striped/data/"+files[file_processing-1]+" BCCA_0-125deg_tasmin_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmin /Volumes/temp_striped/")
-		file_processing+=1
-		tasmax=True
-	processes.append(subprocess.Popen(command))
-	if len(processes) < max_processes:
+pr_run=True
+while file_processing<=len(files):
+    print str(file_processing)
+    if pr_run:
+        command=shlex.split("python averageBCCA.py /Volumes/temp_striped/data/"+files[file_processing-1]+" BCCA_0-125deg_pr_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_pr /Volumes/temp_striped/unmerged_pr")
+        file_processing+=1
+    else:
+        if tasmax:
+            command=shlex.split("python averageBCCA.py /Volumes/temp_striped/data/"+files[file_processing-1]+" BCCA_0-125deg_tasmax_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmax /Volumes/temp_striped/unmerged")
+            tasmax=False
+        else:
+            command=shlex.split("python averageBCCA.py /Volumes/temp_striped/data/"+files[file_processing-1]+" BCCA_0-125deg_tasmin_day_"+files[file_processing-1].replace('.nc','')+" rcp "+files[file_processing-1].replace('.nc','')+"_tasmin /Volumes/temp_striped/unmerged")
+            file_processing+=1
+            tasmax=True
+    print(command)
+    processes.append(subprocess.Popen(command))
+    if len(processes) < max_processes:
 		time.sleep(pause_time)
-	while len(processes) >= max_processes:
-		time.sleep(pause_time*2)
-		processes = [proc for proc in processes if proc.poll() is None]
-
+    while len(processes) >= max_processes:
+        time.sleep(pause_time*2)
+        processes = [proc for proc in processes if proc.poll() is None]
 while len(processes) > 0:
-	time.sleep(pause_time)
-	processes = [proc for proc in processes if proc.poll() is None]
+    time.sleep(pause_time)
+    processes = [proc for proc in processes if proc.poll() is None]
