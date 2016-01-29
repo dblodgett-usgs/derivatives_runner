@@ -142,13 +142,13 @@ files=("ACCESS1-0_rcp45_r1i1p1.nc",
 "inmcm4_rcp45_r1i1p1.nc",
 "inmcm4_rcp85_r1i1p1.nc")
 products=['monthly','annual', 'seasonal']
-temps=['tasmax','tasmin']
+temps=['tasmax','tasmin','pr']
 commands=[]
 for i in range(len(files)):
 	for j in range(len(products)):
 		for k in range(len(temps)):
 			if os.path.isfile("/Volumes/scratch2/out/"+files[i].replace('.nc','')+"_"+temps[k]+"_"+products[j]+"_merged.nc")==False:
-				commands.append(shlex.split("python catBCCA.py /Volumes/temp_striped/ "+files[i].replace('.nc','')+"_"+temps[k]+" "+products[j]+" /Volumes/scratch2/out"))
+				commands.append(shlex.split("python catBCCA.py /Volumes/temp_striped/unmerged "+files[i].replace('.nc','')+"_"+temps[k]+" "+products[j]+" /Volumes/scratch2/out"))
 file_processing=0
 for command in commands:
 	print command	
